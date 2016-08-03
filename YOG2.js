@@ -1,3 +1,7 @@
+npm run debug-win
+yog2 release --dest debug --watch
+
+
 命令行{
   监听文件修改，对修改文件进行增量编译并发布
     yog2 release --dest debug --watch
