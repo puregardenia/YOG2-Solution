@@ -1,3 +1,4 @@
+<!-- layout.tpl -->
 <!doctype html>
 {% html lang="en" framework="easydata:static/js/mod.js" %}
     {% head %}
@@ -22,3 +23,15 @@
     {% endbody %}
 
 {% endhtml %}
+<!-- /layout.tpl -->
+
+
+<!-- index.tpl -->
+{% extends 'easydata:page/layout.tpl' %}
+
+{% block content %}
+     <div id="pages-container">
+        {% widget "easydata:widget/message/message.tpl"%}
+     </div>
+{% endblock %}
+<!-- /index.tpl -->

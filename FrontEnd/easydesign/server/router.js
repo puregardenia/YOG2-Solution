@@ -6,20 +6,20 @@ module.exports = function(router){
     // also you can add custom action
     // require /spa/some/hefangshi
     // router.get('/some/:user', router.action('api'));
-    
+
     // or write action directly
     // router.get('/some/:user', function(res, req){});
 
     // a restful api example
     router.route('/book')
-        // PUT /easydata/book
+        // PUT /easydesign/book
         .put(router.action('book').put)
-        // GET /easydata/book
+        // GET /easydesign/book
         .get(router.action('book'));
 
     router.route('/book/:id')
-        // GET /easydata/book/1
+        // GET /easydesign/book/1
         .get(router.action('book').get)
-        // DELETE /easydata/book/1
+        // DELETE /easydesign/book/1
         .delete(router.action('book').delete);
 };

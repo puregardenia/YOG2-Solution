@@ -7,7 +7,7 @@ fis.config.set('namespace', 'easydesign');
 
 // chrome下可以安装插件实现livereload功能
 // https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei
-fis.config.set('livereload.port', 35729);
+// fis.config.set('livereload.port', 35729);
 
 if (fis.IS_FIS3) {
     fis.media('debug').match('*', {
