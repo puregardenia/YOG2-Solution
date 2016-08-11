@@ -623,7 +623,7 @@
               <div class="video_comp"  style="position: relative;">
 
                 <div class="video_cen">
-              <iframe id="playVideo" name=" " src="{{html}}/video.tpl" width="750px" height="420" marginheight="0" marginwidth="0" style="border:0px" frameborder="0" scrolling="no"></iframe>
+              <iframe id="playVideo" name=" " src="{{html}}/video.html" width="750px" height="420" marginheight="0" marginwidth="0" style="border:0px" frameborder="0" scrolling="no"></iframe>
 
             </div>
           </div>
