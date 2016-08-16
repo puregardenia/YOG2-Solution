@@ -1,4 +1,4 @@
-<link href="/static/easydesign/static/css/production/header.css" rel="stylesheet" type="text/css"/>
+<link href="../static/css/header.less" rel="stylesheet" type="text/css"/>
 
 <div class="header clearfix">
   <div class="header-wrapper clearfix">

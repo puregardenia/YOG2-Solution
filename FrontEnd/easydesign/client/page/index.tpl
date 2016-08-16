@@ -1,25 +1,25 @@
 {% extends 'easydesign:page/layout.tpl' %}
 
 {% block content %}
-<link href="{{css}}/global.css" rel="stylesheet" type="text/css"/>
-<link href="{{css}}/index.css" rel="stylesheet" type="text/css"/>
-
+<link href="../static/css/global.less" rel="stylesheet" type="text/css"/>
+<link href="../static/css/index.less" rel="stylesheet" type="text/css"/>
+  {% include 'common:page/top.tpl' %}
   <div class="index-banner-box">
     <div class="banner-wrapper">
       <ul class="clearfix banner-box">
         <li class="banner-li banner-color2">
           <a class="banner-a" href="/html/easysofthome/download/download.html">
-            <img src="{{img}}/banner2.jpg">
+            <img src="../static/images/production/banner2.jpg">
           </a>
         </li>
         <li class="banner-li banner-color1">
           <a class="banner-a" href="/html/easysofthome/download/download.html">
-            <img src="{{img}}/banner1.jpg">
+            <img src="../static/images/production/banner1.jpg">
           </a>
         </li>
         <li class="banner-li banner-color3">
           <a class="banner-a" href="/html/easysofthome/download/download.html">
-            <img src="{{img}}/banner3.jpg">
+            <img src="../static/images/production/banner3.jpg">
           </a>
         </li>
       </ul>
@@ -38,18 +38,18 @@
     </div>
     <p class="sim_exp">高科技二位织物仿真和三维成品技术，仿真度达到照片级效果</p>
     <div class="simulation-box">
-      <img id="simulation_fabric_left" src="{{img}}/simulation_fabric.jpg">
-      <img id="simulation_fabric_right" src="{{img}}/simulation_fabric_vr.jpg">
+      <img id="simulation_fabric_left" src="../static/images/production/simulation_fabric.jpg">
+      <img id="simulation_fabric_right" src="../static/images/production/simulation_fabric_vr.jpg">
       <div class="fabric_list">
         <ul>
           <li>
-            <img src="{{img}}/index_fabricList_1.jpg" imglink="{{img}}/simulation_fabric_vr.jpg"></li>
+            <img src="../static/images/production/index_fabricList_1.jpg" imglink="../static/images/production/simulation_fabric_vr.jpg"></li>
         <li>
-            <img src="{{img}}/index_fabricList_2.jpg" imglink="{{img}}/index_fabric_2.jpg"></li>
+            <img src="../static/images/production/index_fabricList_2.jpg" imglink="../static/images/production/index_fabric_2.jpg"></li>
         <li>
-            <img src="{{img}}/index_fabricList_3.jpg" imglink="{{img}}/index_fabric_3.jpg"></li>
+            <img src="../static/images/production/index_fabricList_3.jpg" imglink="../static/images/production/index_fabric_3.jpg"></li>
         <li>
-            <img src="{{img}}/index_fabricList_4.jpg" imglink="{{img}}/index_fabric_4.jpg"></li>
+            <img src="../static/images/production/index_fabricList_4.jpg" imglink="../static/images/production/index_fabric_4.jpg"></li>
 
         </ul>
       </div>
@@ -58,7 +58,7 @@
       <ul class="clearfix">
         <li>
           <a href="./simulation.html?id1" target="_black">
-            <img src="{{img}}/affect.jpg" alt=""> <b></b>
+            <img src="../static/images/production/affect.jpg" alt=""> <b></b>
             <div class="sim_cover first_cover"></div>
             <div class="sim_cont_box">
               <p class="sim_cover_tit">卧室</p>
@@ -71,7 +71,7 @@
         </li>
         <li>
           <a href="./simulation.html?id2" target="_black">
-            <img src="{{img}}/affect2.jpg" alt=""> <b></b>
+            <img src="../static/images/production/affect2.jpg" alt=""> <b></b>
             <div class="sim_cover"></div>
             <div class="sim_cont_box">
               <p class="sim_cover_tit">浴室</p>
@@ -84,7 +84,7 @@
         </li>
         <li>
           <a href="./simulation.html?id3" target="_black">
-            <img src="{{img}}/affect3.jpg" alt="">
+            <img src="../static/images/production/affect3.jpg" alt="">
             <b></b>
             <div class="sim_cover"></div>
             <div class="sim_cont_box">
@@ -100,7 +100,7 @@
         </li>
         <li>
           <a href="./simulation.html?id4" target="_black">
-            <img src="{{img}}/affect4.jpg" alt="">
+            <img src="../static/images/production/affect4.jpg" alt="">
             <b></b>
             <div class="sim_cover"></div>
             <div class="sim_cont_box">
@@ -135,7 +135,7 @@
       <ul id="library_flowerPattern" class="exo_conbox clearfix">
         <li class="lf con_left">
           <a target="_blank" href="/html/easydesign/Flowers/viewFlower.html">
-            <img data-original="{{img}}/scenes.png" class="img_position">
+            <img data-original="../static/images/production/scenes.png" class="img_position">
             <div class="selectbox"></div>
             <div class="more-box">
               <span class="search"></span>
@@ -145,7 +145,7 @@
         </li>
         <li class="lf con_left">
           <a href="#">
-            <img data-original="{{img}}/scenes.png" class="img_position">
+            <img data-original="../static/images/production/scenes.png" class="img_position">
             <div class="selectbox"></div>
             <div class="more-box">
               <span class="search"></span>
@@ -155,7 +155,7 @@
         </li>
         <li class="lf con_left">
           <a href="#">
-            <img data-original="{{img}}/scenes.png" class="img_position">
+            <img data-original="../static/images/production/scenes.png" class="img_position">
             <div class="selectbox"></div>
             <div class="more-box">
               <span class="search"></span>
@@ -165,7 +165,7 @@
         </li>
         <li class="lf con_left">
           <a href="#">
-            <img data-original="{{img}}/scenes.png" class="img_position">
+            <img data-original="../static/images/production/scenes.png" class="img_position">
             <div class="selectbox"></div>
             <div class="more-box">
               <span class="search"></span>
@@ -175,7 +175,7 @@
         </li>
         <li class="lf con_left">
           <a href="#">
-            <img data-original="{{img}}/scenes.png" class="img_position">
+            <img data-original="../static/images/production/scenes.png" class="img_position">
             <div class="selectbox"></div>
             <div class="more-box">
               <span class="search"></span>
@@ -185,7 +185,7 @@
         </li>
         <li class="lf con_left">
           <a href="#">
-            <img data-original="{{img}}/scenes.png" class="img_position">
+            <img data-original="../static/images/production/scenes.png" class="img_position">
             <div class="selectbox"></div>
             <div class="more-box">
               <span class="search"></span>
@@ -195,7 +195,7 @@
         </li>
         <li class="lf con_left">
           <a href="#">
-            <img data-original="{{img}}/scenes.png" class="img_position">
+            <img data-original="../static/images/production/scenes.png" class="img_position">
             <div class="selectbox"></div>
             <div class="more-box">
               <span class="search"></span>
@@ -213,7 +213,7 @@
     <ul id="library_fabric" class="exo_conbox clearfix" style="display:none">
       <li class="lf con_left">
         <a target="_blank" href="/html/easydesign/Fabric/viewFabric.html">
-          <img data-original="{{img}}/scenes.png" class="img_position">
+          <img data-original="../static/images/production/scenes.png" class="img_position">
           <div class="selectbox"></div>
           <div class="more-box">
             <span class="search"></span>
@@ -223,7 +223,7 @@
       </li>
       <li class="lf con_left">
         <a href="#">
-          <img data-original="{{img}}/scenes.png" class="img_position">
+          <img data-original="../static/images/production/scenes.png" class="img_position">
           <div class="selectbox"></div>
           <div class="more-box">
             <span class="search"></span>
@@ -233,7 +233,7 @@
       </li>
       <li class="lf con_left">
         <a href="#">
-          <img data-original="{{img}}/scenes.png" class="img_position">
+          <img data-original="../static/images/production/scenes.png" class="img_position">
           <div class="selectbox"></div>
           <div class="more-box">
             <span class="search"></span>
@@ -243,7 +243,7 @@
         </li>
         <li class="lf con_left">
           <a href="#">
-            <img data-original="{{img}}/scenes.png" class="img_position">
+            <img data-original="../static/images/production/scenes.png" class="img_position">
             <div class="selectbox"></div>
             <div class="more-box">
               <span class="search"></span>
@@ -253,7 +253,7 @@
           </li>
           <li class="lf con_left">
             <a href="#">
-              <img data-original="{{img}}/scenes.png" class="img_position">
+              <img data-original="../static/images/production/scenes.png" class="img_position">
               <div class="selectbox"></div>
               <div class="more-box">
                 <span class="search"></span>
@@ -263,7 +263,7 @@
             </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="{{img}}/scenes.png" class="img_position">
+                <img data-original="../static/images/production/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -273,7 +273,7 @@
               </li>
               <li class="lf con_left">
                 <a href="#">
-                  <img data-original="{{img}}/scenes.png" class="img_position">
+                  <img data-original="../static/images/production/scenes.png" class="img_position">
                   <div class="selectbox"></div>
                   <div class="more-box">
                     <span class="search"></span>
@@ -293,7 +293,7 @@
             <ul id="library_quality" style="display:none" class="exo_conbox clearfix">
             <li class="lf con_left">
               <a target="_blank" href="/html/easydesign/quality/viewQuality.html">
-                <img data-original="{{img}}/scenes.png" class="img_position">
+                <img data-original="../static/images/production/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -303,7 +303,7 @@
             </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="{{img}}/scenes.png" class="img_position">
+                <img data-original="../static/images/production/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -313,7 +313,7 @@
             </li>
           <li class="lf con_left">
             <a href="#">
-              <img data-original="{{img}}/scenes.png" class="img_position">
+              <img data-original="../static/images/production/scenes.png" class="img_position">
               <div class="selectbox"></div>
               <div class="more-box">
                 <span class="search"></span>
@@ -323,7 +323,7 @@
             </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="{{img}}/scenes.png" class="img_position">
+                <img data-original="../static/images/production/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -333,7 +333,7 @@
               </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="{{img}}/scenes.png" class="img_position">
+                <img data-original="../static/images/production/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -343,7 +343,7 @@
               </li>
               <li class="lf con_left">
                 <a href="#">
-                  <img data-original="{{img}}/scenes.png" class="img_position">
+                  <img data-original="../static/images/production/scenes.png" class="img_position">
                   <div class="selectbox"></div>
                   <div class="more-box">
                     <span class="search"></span>
@@ -353,7 +353,7 @@
                 </li>
               <li class="lf con_left">
                 <a href="#">
-                  <img data-original="{{img}}/scenes.png" class="img_position">
+                  <img data-original="../static/images/production/scenes.png" class="img_position">
                   <div class="selectbox"></div>
                   <div class="more-box">
                     <span class="search"></span>
@@ -372,7 +372,7 @@
             <ul id="library_productDesignScene" style="display:none" class="exo_conbox clearfix">
             <li class="lf con_left">
               <a target="_blank" href="/html/easydesign/scene/viewScene.html">
-                <img data-original="{{img}}/scenes.png" class="img_position">
+                <img data-original="../static/images/production/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -382,7 +382,7 @@
             </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="{{img}}/scenes.png" class="img_position">
+                <img data-original="../static/images/production/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -392,7 +392,7 @@
             </li>
           <li class="lf con_left">
             <a href="#">
-              <img data-original="{{img}}/scenes.png" class="img_position">
+              <img data-original="../static/images/production/scenes.png" class="img_position">
               <div class="selectbox"></div>
               <div class="more-box">
                 <span class="search"></span>
@@ -402,7 +402,7 @@
             </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="{{img}}/scenes.png" class="img_position">
+                <img data-original="../static/images/production/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -412,7 +412,7 @@
               </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="{{img}}/scenes.png" class="img_position">
+                <img data-original="../static/images/production/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -422,7 +422,7 @@
               </li>
               <li class="lf con_left">
                 <a href="#">
-                  <img data-original="{{img}}/scenes.png" class="img_position">
+                  <img data-original="../static/images/production/scenes.png" class="img_position">
                   <div class="selectbox"></div>
                   <div class="more-box">
                     <span class="search"></span>
@@ -432,7 +432,7 @@
                 </li>
               <li class="lf con_left">
                 <a href="#">
-                  <img data-original="{{img}}/scenes.png" class="img_position">
+                  <img data-original="../static/images/production/scenes.png" class="img_position">
                   <div class="selectbox"></div>
                   <div class="more-box">
                     <span class="search"></span>
@@ -452,7 +452,7 @@
             <ul id="library_StyleModel" style="display:none" class="exo_conbox clearfix">
             <li class="lf con_left">
               <a target="_blank" href="/html/easydesign/Model/viewModel.html">
-                <img data-original="{{img}}/scenes.png" class="img_position">
+                <img data-original="../static/images/production/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -462,7 +462,7 @@
             </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="{{img}}/scenes.png" class="img_position">
+                <img data-original="../static/images/production/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -472,7 +472,7 @@
             </li>
           <li class="lf con_left">
             <a href="#">
-              <img data-original="{{img}}/scenes.png" class="img_position">
+              <img data-original="../static/images/production/scenes.png" class="img_position">
               <div class="selectbox"></div>
               <div class="more-box">
                 <span class="search"></span>
@@ -482,7 +482,7 @@
             </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="{{img}}/scenes.png" class="img_position">
+                <img data-original="../static/images/production/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -492,7 +492,7 @@
               </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="{{img}}/scenes.png" class="img_position">
+                <img data-original="../static/images/production/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -502,7 +502,7 @@
               </li>
               <li class="lf con_left">
                 <a href="#">
-                  <img data-original="{{img}}/scenes.png" class="img_position">
+                  <img data-original="../static/images/production/scenes.png" class="img_position">
                   <div class="selectbox"></div>
                   <div class="more-box">
                     <span class="search"></span>
@@ -512,7 +512,7 @@
                 </li>
               <li class="lf con_left">
                 <a href="#">
-                  <img data-original="{{img}}/scenes.png" class="img_position">
+                  <img data-original="../static/images/production/scenes.png" class="img_position">
                   <div class="selectbox"></div>
                   <div class="more-box">
                     <span class="search"></span>
@@ -532,7 +532,7 @@
             <ul id="library_FinishedProduct" style="display:none" class="exo_conbox clearfix">
             <li class="lf con_left">
               <a target="_blank" href="/html/easydesign/uidesign/viewWorks.html">
-                <img data-original="{{img}}/scenes.png" class="img_position">
+                <img data-original="../static/images/production/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -542,7 +542,7 @@
             </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="{{img}}/scenes.png" class="img_position">
+                <img data-original="../static/images/production/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -552,7 +552,7 @@
             </li>
           <li class="lf con_left">
             <a href="#">
-              <img data-original="{{img}}/scenes.png" class="img_position">
+              <img data-original="../static/images/production/scenes.png" class="img_position">
               <div class="selectbox"></div>
               <div class="more-box">
                 <span class="search"></span>
@@ -562,7 +562,7 @@
             </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="{{img}}/scenes.png" class="img_position">
+                <img data-original="../static/images/production/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -572,7 +572,7 @@
               </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="{{img}}/scenes.png" class="img_position">
+                <img data-original="../static/images/production/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -582,7 +582,7 @@
               </li>
               <li class="lf con_left">
                 <a href="#">
-                  <img data-original="{{img}}/scenes.png" class="img_position">
+                  <img data-original="../static/images/production/scenes.png" class="img_position">
                   <div class="selectbox"></div>
                   <div class="more-box">
                     <span class="search"></span>
@@ -592,7 +592,7 @@
                 </li>
               <li class="lf con_left">
                 <a href="#">
-                  <img data-original="{{img}}/scenes.png" class="img_position">
+                  <img data-original="../static/images/production/scenes.png" class="img_position">
                   <div class="selectbox"></div>
                   <div class="more-box">
                     <span class="search"></span>
@@ -623,7 +623,7 @@
               <div class="video_comp"  style="position: relative;">
 
                 <div class="video_cen">
-              <iframe id="playVideo" name=" " src="{{html}}/video.html" width="750px" height="420" marginheight="0" marginwidth="0" style="border:0px" frameborder="0" scrolling="no"></iframe>
+              <iframe id="playVideo" name=" " src="/easydesign/video" width="750px" height="420" marginheight="0" marginwidth="0" style="border:0px" frameborder="0" scrolling="no"></iframe>
 
             </div>
           </div>

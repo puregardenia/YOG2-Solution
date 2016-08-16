@@ -3,7 +3,7 @@
  * @author
  */
 
-fis.config.set('namespace', 'easydesign');
+fis.config.set('namespace', 'common');
 
 // chrome下可以安装插件实现livereload功能
 // https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei
@@ -25,6 +25,15 @@ if (fis.IS_FIS3) {
             to: '/'
         })
     });
+
+
+
+
+
+
+
+
+
 
 }
 else {
@@ -51,7 +60,7 @@ else {
 
     // 对 CSS 进行图片合并
     fis.match('*.less', {
-        useSprite: true
+        useSprite: true,
     });
 
 ///////////////////// 优化 //////////////////////////////
