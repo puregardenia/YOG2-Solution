@@ -7,7 +7,7 @@ fis.config.set('namespace', 'common');
 
 // chrome下可以安装插件实现livereload功能
 // https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei
-fis.config.set('livereload.port', 35729);
+// fis.config.set('livereload.port', 35729);
 
 if (fis.IS_FIS3) {
     fis.media('debug').match('*', {
@@ -25,15 +25,6 @@ if (fis.IS_FIS3) {
             to: '/'
         })
     });
-
-
-
-
-
-
-
-
-
 
 }
 else {
@@ -54,29 +45,38 @@ else {
     });
 
     // 启用 fis-spriter-csssprites 插件
-    fis.match('::packager', {
-        spriter: fis.plugin('csssprites')
+    fis.match('::package', {
+      spriter: fis.plugin('csssprites')
     });
 
     // 对 CSS 进行图片合并
-    fis.match('*.less', {
-        useSprite: true,
+    fis.match('*.css', {
+      useSprite: true,
+      // fis-optimizer-clean-css 插件进行压缩，已内置
+      optimizer: fis.plugin('clean-css')
     });
 
 ///////////////////// 优化 //////////////////////////////
-    fis.match('*.js', {
-        // fis-optimizer-uglify-js 插件进行压缩，已内置
-        optimizer: fis.plugin('uglify-js')
+    // fis.match('*.js', {
+    //     // fis-optimizer-uglify-js 插件进行压缩，已内置
+    //     optimizer: fis.plugin('uglify-js')
+    // });
+
+    // fis.match('*.png', {
+    //     // fis-optimizer-png-compressor 插件进行压缩，已内置
+    //     optimizer: fis.plugin('png-compressor')
+    // });
+    //
+    fis.match('::package', {
+      postpackager: fis.plugin('loader', {
+        allInOne: true
+      })
     });
 
-    fis.match('*.css', {
-        // fis-optimizer-clean-css 插件进行压缩，已内置
-        optimizer: fis.plugin('clean-css')
+    fis.match('*.less', {
+      parser: fis.plugin('less'),
+      rExt: '.css'
     });
 
-    fis.match('*.png', {
-        // fis-optimizer-png-compressor 插件进行压缩，已内置
-        optimizer: fis.plugin('png-compressor')
-    });
 
 }
