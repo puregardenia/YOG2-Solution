@@ -4,17 +4,17 @@
  */
 
 module.exports = {
-  // 'DEMO_SERVICE': {
-  //     unpack: 'json',
-  //     pack: 'form',
-  //     method: 'POST',
-  //     encoding: 'gbk',
-  //     balance: 'random',
-  //     protocol: 'http',
-  //     retry: 2,
-  //     timeout: 500,
-  //     server: [
-  //         { host: '127.0.0.1', port: 8080}
-  //     ]
-  // }
+  'DEMO_SERVICE': {
+      unpack: 'json',
+      pack: 'form',
+      method: 'GET',
+      encoding: 'utf-8',
+      balance: 'random',
+      protocol: 'http',
+      retry: 2,
+      timeout: 500,
+      server: [
+          { host: 'rap.taobao.org', port: 80}
+      ]
+  }
 };
