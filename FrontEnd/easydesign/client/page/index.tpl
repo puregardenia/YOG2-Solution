@@ -135,7 +135,7 @@
       <ul id="library_flowerPattern" class="exo_conbox clearfix">
         <li class="lf con_left">
           <a target="_blank" href="/html/easydesign/Flowers/viewFlower.html">
-            <img data-original="../static/images/img/scenes.png" class="img_position">
+            <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
             <div class="selectbox"></div>
             <div class="more-box">
               <span class="search"></span>
@@ -145,7 +145,7 @@
         </li>
         <li class="lf con_left">
           <a href="#">
-            <img data-original="../static/images/img/scenes.png" class="img_position">
+            <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
             <div class="selectbox"></div>
             <div class="more-box">
               <span class="search"></span>
@@ -155,7 +155,7 @@
         </li>
         <li class="lf con_left">
           <a href="#">
-            <img data-original="../static/images/img/scenes.png" class="img_position">
+            <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
             <div class="selectbox"></div>
             <div class="more-box">
               <span class="search"></span>
@@ -165,7 +165,7 @@
         </li>
         <li class="lf con_left">
           <a href="#">
-            <img data-original="../static/images/img/scenes.png" class="img_position">
+            <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
             <div class="selectbox"></div>
             <div class="more-box">
               <span class="search"></span>
@@ -175,7 +175,7 @@
         </li>
         <li class="lf con_left">
           <a href="#">
-            <img data-original="../static/images/img/scenes.png" class="img_position">
+            <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
             <div class="selectbox"></div>
             <div class="more-box">
               <span class="search"></span>
@@ -185,7 +185,7 @@
         </li>
         <li class="lf con_left">
           <a href="#">
-            <img data-original="../static/images/img/scenes.png" class="img_position">
+            <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
             <div class="selectbox"></div>
             <div class="more-box">
               <span class="search"></span>
@@ -195,7 +195,7 @@
         </li>
         <li class="lf con_left">
           <a href="#">
-            <img data-original="../static/images/img/scenes.png" class="img_position">
+            <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
             <div class="selectbox"></div>
             <div class="more-box">
               <span class="search"></span>
@@ -213,7 +213,7 @@
     <ul id="library_fabric" class="exo_conbox clearfix" style="display:none">
       <li class="lf con_left">
         <a target="_blank" href="/html/easydesign/Fabric/viewFabric.html">
-          <img data-original="../static/images/img/scenes.png" class="img_position">
+          <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
           <div class="selectbox"></div>
           <div class="more-box">
             <span class="search"></span>
@@ -223,7 +223,7 @@
       </li>
       <li class="lf con_left">
         <a href="#">
-          <img data-original="../static/images/img/scenes.png" class="img_position">
+          <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
           <div class="selectbox"></div>
           <div class="more-box">
             <span class="search"></span>
@@ -233,7 +233,7 @@
       </li>
       <li class="lf con_left">
         <a href="#">
-          <img data-original="../static/images/img/scenes.png" class="img_position">
+          <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
           <div class="selectbox"></div>
           <div class="more-box">
             <span class="search"></span>
@@ -243,7 +243,7 @@
         </li>
         <li class="lf con_left">
           <a href="#">
-            <img data-original="../static/images/img/scenes.png" class="img_position">
+            <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
             <div class="selectbox"></div>
             <div class="more-box">
               <span class="search"></span>
@@ -253,7 +253,7 @@
           </li>
           <li class="lf con_left">
             <a href="#">
-              <img data-original="../static/images/img/scenes.png" class="img_position">
+              <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
               <div class="selectbox"></div>
               <div class="more-box">
                 <span class="search"></span>
@@ -263,7 +263,7 @@
             </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="../static/images/img/scenes.png" class="img_position">
+                <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -273,7 +273,7 @@
               </li>
               <li class="lf con_left">
                 <a href="#">
-                  <img data-original="../static/images/img/scenes.png" class="img_position">
+                  <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                   <div class="selectbox"></div>
                   <div class="more-box">
                     <span class="search"></span>
@@ -293,7 +293,7 @@
             <ul id="library_quality" style="display:none" class="exo_conbox clearfix">
             <li class="lf con_left">
               <a target="_blank" href="/html/easydesign/quality/viewQuality.html">
-                <img data-original="../static/images/img/scenes.png" class="img_position">
+                <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -303,7 +303,7 @@
             </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="../static/images/img/scenes.png" class="img_position">
+                <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -313,7 +313,7 @@
             </li>
           <li class="lf con_left">
             <a href="#">
-              <img data-original="../static/images/img/scenes.png" class="img_position">
+              <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
               <div class="selectbox"></div>
               <div class="more-box">
                 <span class="search"></span>
@@ -323,7 +323,7 @@
             </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="../static/images/img/scenes.png" class="img_position">
+                <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -333,7 +333,7 @@
               </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="../static/images/img/scenes.png" class="img_position">
+                <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -343,7 +343,7 @@
               </li>
               <li class="lf con_left">
                 <a href="#">
-                  <img data-original="../static/images/img/scenes.png" class="img_position">
+                  <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                   <div class="selectbox"></div>
                   <div class="more-box">
                     <span class="search"></span>
@@ -353,7 +353,7 @@
                 </li>
               <li class="lf con_left">
                 <a href="#">
-                  <img data-original="../static/images/img/scenes.png" class="img_position">
+                  <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                   <div class="selectbox"></div>
                   <div class="more-box">
                     <span class="search"></span>
@@ -372,7 +372,7 @@
             <ul id="library_productDesignScene" style="display:none" class="exo_conbox clearfix">
             <li class="lf con_left">
               <a target="_blank" href="/html/easydesign/scene/viewScene.html">
-                <img data-original="../static/images/img/scenes.png" class="img_position">
+                <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -382,7 +382,7 @@
             </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="../static/images/img/scenes.png" class="img_position">
+                <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -392,7 +392,7 @@
             </li>
           <li class="lf con_left">
             <a href="#">
-              <img data-original="../static/images/img/scenes.png" class="img_position">
+              <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
               <div class="selectbox"></div>
               <div class="more-box">
                 <span class="search"></span>
@@ -402,7 +402,7 @@
             </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="../static/images/img/scenes.png" class="img_position">
+                <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -412,7 +412,7 @@
               </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="../static/images/img/scenes.png" class="img_position">
+                <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -422,7 +422,7 @@
               </li>
               <li class="lf con_left">
                 <a href="#">
-                  <img data-original="../static/images/img/scenes.png" class="img_position">
+                  <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                   <div class="selectbox"></div>
                   <div class="more-box">
                     <span class="search"></span>
@@ -432,7 +432,7 @@
                 </li>
               <li class="lf con_left">
                 <a href="#">
-                  <img data-original="../static/images/img/scenes.png" class="img_position">
+                  <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                   <div class="selectbox"></div>
                   <div class="more-box">
                     <span class="search"></span>
@@ -452,7 +452,7 @@
             <ul id="library_StyleModel" style="display:none" class="exo_conbox clearfix">
             <li class="lf con_left">
               <a target="_blank" href="/html/easydesign/Model/viewModel.html">
-                <img data-original="../static/images/img/scenes.png" class="img_position">
+                <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -462,7 +462,7 @@
             </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="../static/images/img/scenes.png" class="img_position">
+                <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -472,7 +472,7 @@
             </li>
           <li class="lf con_left">
             <a href="#">
-              <img data-original="../static/images/img/scenes.png" class="img_position">
+              <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
               <div class="selectbox"></div>
               <div class="more-box">
                 <span class="search"></span>
@@ -482,7 +482,7 @@
             </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="../static/images/img/scenes.png" class="img_position">
+                <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -492,7 +492,7 @@
               </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="../static/images/img/scenes.png" class="img_position">
+                <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -502,7 +502,7 @@
               </li>
               <li class="lf con_left">
                 <a href="#">
-                  <img data-original="../static/images/img/scenes.png" class="img_position">
+                  <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                   <div class="selectbox"></div>
                   <div class="more-box">
                     <span class="search"></span>
@@ -512,7 +512,7 @@
                 </li>
               <li class="lf con_left">
                 <a href="#">
-                  <img data-original="../static/images/img/scenes.png" class="img_position">
+                  <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                   <div class="selectbox"></div>
                   <div class="more-box">
                     <span class="search"></span>
@@ -532,7 +532,7 @@
             <ul id="library_FinishedProduct" style="display:none" class="exo_conbox clearfix">
             <li class="lf con_left">
               <a target="_blank" href="/html/easydesign/uidesign/viewWorks.html">
-                <img data-original="../static/images/img/scenes.png" class="img_position">
+                <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -542,7 +542,7 @@
             </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="../static/images/img/scenes.png" class="img_position">
+                <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -552,7 +552,7 @@
             </li>
           <li class="lf con_left">
             <a href="#">
-              <img data-original="../static/images/img/scenes.png" class="img_position">
+              <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
               <div class="selectbox"></div>
               <div class="more-box">
                 <span class="search"></span>
@@ -562,7 +562,7 @@
             </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="../static/images/img/scenes.png" class="img_position">
+                <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -572,7 +572,7 @@
               </li>
             <li class="lf con_left">
               <a href="#">
-                <img data-original="../static/images/img/scenes.png" class="img_position">
+                <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                 <div class="selectbox"></div>
                 <div class="more-box">
                   <span class="search"></span>
@@ -582,7 +582,7 @@
               </li>
               <li class="lf con_left">
                 <a href="#">
-                  <img data-original="../static/images/img/scenes.png" class="img_position">
+                  <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                   <div class="selectbox"></div>
                   <div class="more-box">
                     <span class="search"></span>
@@ -592,7 +592,7 @@
                 </li>
               <li class="lf con_left">
                 <a href="#">
-                  <img data-original="../static/images/img/scenes.png" class="img_position">
+                  <img data-original="/static/easydesign/static/images/img/scenes.png" class="img_position">
                   <div class="selectbox"></div>
                   <div class="more-box">
                     <span class="search"></span>
