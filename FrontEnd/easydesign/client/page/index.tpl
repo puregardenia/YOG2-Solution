@@ -629,4 +629,6 @@
           </div>
 
         </div>
+
+    <script src="../static/js/Index/index.js"></script>
 {% endblock %}

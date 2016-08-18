@@ -23,6 +23,14 @@ if (fis.IS_FIS3) {
       optimizer: fis.plugin('clean-css')
     });
 
+
+
+
+
+
+
+
+
 ///////////////////// 优化 //////////////////////////////
     fis.match('*.js', {
         // fis-optimizer-uglify-js 插件进行压缩，已内置
