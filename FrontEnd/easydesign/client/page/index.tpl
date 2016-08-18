@@ -4,6 +4,7 @@
 <link href="../static/css/global.less" rel="stylesheet" type="text/css"/>
 <link href="../static/css/index.less" rel="stylesheet" type="text/css"/>
   {% include 'common:page/top.tpl' %}
+
   <div class="index-banner-box">
     <div class="banner-wrapper">
       <ul class="clearfix banner-box">

@@ -26,6 +26,7 @@ module.exports.http = {
     //     'bodyParser',
     //     'log',
     //     'ral',
+    //     'ral_extend',
     //     'views',
     //     'methodOverride',
     //     'dispatcher',

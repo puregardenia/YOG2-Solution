@@ -1,8 +1,6 @@
-var index = require('../model/index');
+var index = require('../model/index.js');
 var util = require('../lib/util.js');
 
 module.exports = function(req, res){
-    var temp = index.getData();
-    res.send(temp);
-    // res.render('easydesign/page/index.tpl');
+    res.render('easydesign/page/index.tpl', index.getData());
 };
