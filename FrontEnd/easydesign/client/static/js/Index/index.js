@@ -1,9 +1,9 @@
-define(function (require, exports, module) {
-    require('jquery');
-    require('layer');
-    require('jquery.event.move');
-    require('loadImage');
-    require('../../lib/jquery.twentytwenty/jquery.twentytwenty.index');
+
+    require('easydesign:widget/jquery.jquery');
+    require('easydesign:widget/layer/layer');
+    require('easydesign:widget/jquery.event.move');
+    require('easydesign:widget/jquery.loadImage/jquery.loadImage');
+//    require('../../lib/jquery.twentytwenty/jquery.twentytwenty.index');
 
 var simulationFabricObj = {'fabricList':[{'src':'/images/production/easydesign/index_fabricList_1.jpg','imgLink':'/images/production/easydesign/simulation_fabric_vr.jpg'},
     {'src':'/images/production/easydesign/index_fabricList_2.jpg','imgLink':'/images/production/easydesign/index_fabric_2.jpg'},
@@ -15,13 +15,13 @@ var simulationFabricObj = {'fabricList':[{'src':'/images/production/easydesign/i
     $('.simulation-box').twentytwenty();
     fraticLayer(simulationFabricObj);
     $('.twentytwenty-handle').css('left','600px');
-    require('js/front/easydesign/Index/banner');
+//    require('js/front/easydesign/Index/banner');
     // 模拟效果
-    require('js/front/easydesign/Index/simulation');
+//    require('js/front/easydesign/Index/simulation');
     // 设计资源库
-    require('js/front/easydesign/Index/sourceLib');
+//    require('js/front/easydesign/Index/sourceLib');
     // 工作室轮播图
-    var studioShow = require('js/front/easydesign/Index/studioShow');
+   var studioShow = require('js/front/easydesign/Index/studioShow');
 
     $(document).ready(function () {
         $('.exo_conbox li').append("<div class='top-line'></div><div class='right-line'></div><div class='bottom-line'></div><div class='left-line'></div>");
@@ -225,14 +225,3 @@ var simulationFabricObj = {'fabricList':[{'src':'/images/production/easydesign/i
     $(window).resize(function () {
         fraticLayer_resize();
     });
-
-
-
-
-
-
-
-
-
-
-});

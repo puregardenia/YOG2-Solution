@@ -9,20 +9,25 @@ fis.config.set('namespace', 'easydesign');
 // https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei
 fis.config.set('livereload.port', 35729);
 
+fis.hook('commonjs');
+
 if (fis.IS_FIS3) {
 
     // 启用 fis-spriter-csssprites 插件
     fis.match('::package', {
-      spriter: fis.plugin('csssprites')
+        spriter: fis.plugin('csssprites')
     });
 
     // 对 CSS 进行图片合并
     fis.match('*.less', {
-      useSprite: true,
-      // fis-optimizer-clean-css 插件进行压缩，已内置
-      optimizer: fis.plugin('clean-css')
+          useSprite: true,
+          // fis-optimizer-clean-css 插件进行压缩，已内置
+          optimizer: fis.plugin('clean-css')
     });
 
+    fis.match('widget/*.{jpg,png,gif,js,css}', {
+        isMod: true
+    });
 
 
 
