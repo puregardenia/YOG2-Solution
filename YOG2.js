@@ -22,3 +22,8 @@ yog2 release --dest debug --watch
   这些参数还提供了缩写和组合的功能，比如上述的命令缩写后可以写成
     yog2 release -w -L -o -m -D -p -d debug
 }
+
+tpl中 require() js 需要js在static中,static中引用的js文件要在widget中
+
+在 widget 中require widget 不会执行
+在 tpl 中require widget 不会执行

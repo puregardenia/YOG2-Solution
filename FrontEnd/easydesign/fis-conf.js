@@ -25,9 +25,9 @@ if (fis.IS_FIS3) {
           optimizer: fis.plugin('clean-css')
     });
 
-    fis.match('widget/*.{jpg,png,gif,js,css}', {
-        isMod: true
-    });
+    // fis.match('widget/*.{jpg,png,gif,js,css}', {
+    //     isMod: true
+    // });
 
 
 

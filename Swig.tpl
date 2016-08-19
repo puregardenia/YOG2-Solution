@@ -36,10 +36,18 @@
 {% endblock %}
 <!-- /index.tpl -->
 
-
+<!-- for循环 if语句-->
 <h1>{{ pagename|title }}</h1>
 <ul>
 {% for author in authors %}
     <li{% if loop.first %} class="first"{% endif %}>{{ author }}</li>
 {% endfor %}
 </ul>
+<!-- /for循环 if语句-->
+
+<!-- 页面中引用script标签 -->
+{% script %}
+    var word = require('easydesign:widget/js/index.js');
+    alert(word);
+{% endscript %}
+<!-- /页面中引用script标签 -->

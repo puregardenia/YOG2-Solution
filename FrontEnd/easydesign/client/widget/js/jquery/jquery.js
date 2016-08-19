@@ -9465,8 +9465,9 @@
     // file names, and jQuery is normally delivered in a lowercase file name.
     // Do this after creating the global so that if an AMD module wants to call
     // noConflict to hide this version of jQuery, it will work.
-    if (typeof define === "function" ) {
-        define([], function () { return jQuery; });
-    }
+
+    // if (typeof define === "function" ) {
+    //     define([], function () { return jQuery; });
+    // }
 
 })(window);
