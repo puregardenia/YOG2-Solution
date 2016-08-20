@@ -5,6 +5,8 @@
 <link href="../static/css/index.less" rel="stylesheet" type="text/css"/>
   {% include 'common:page/top.tpl' %}
 
+  {% widget 'easydesign:widget/tpl/banner/banner.tpl' %}
+
   <div class="index-banner-box">
     <div class="banner-wrapper">
       <ul class="clearfix banner-box">
