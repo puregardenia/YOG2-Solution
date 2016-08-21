@@ -1,34 +1,36 @@
+require('common:static/js/jquery');
+require('common:static/js/layer/layer');
+require('common:static/js/event.move.js');
+require('./loadImage');
+require('./twentytwenty/twentytwenty.index');
 
-    require('easydesign:widget/jquery.jquery');
-    require('easydesign:widget/layer/layer');
-    require('easydesign:widget/jquery.event.move');
-    require('easydesign:widget/jquery.loadImage/jquery.loadImage');
-//    require('../../lib/jquery.twentytwenty/jquery.twentytwenty.index');
-
-var simulationFabricObj = {'fabricList':[{'src':'/images/production/easydesign/index_fabricList_1.jpg','imgLink':'/images/production/easydesign/simulation_fabric_vr.jpg'},
-    {'src':'/images/production/easydesign/index_fabricList_2.jpg','imgLink':'/images/production/easydesign/index_fabric_2.jpg'},
-    {'src':'/images/production/easydesign/index_fabricList_3.jpg','imgLink':'/images/production/easydesign/index_fabric_3.jpg'},
-    {'src':'/images/production/easydesign/index_fabricList_4.jpg','imgLink':'/images/production/easydesign/index_fabric_4.jpg'}]};
+var simulationFabricObj = {
+    'fabricList':[
+        {'src':'/static/easydesign/static/images/img/index_fabricList_1.jpg','imgLink':'/static/easydesign/static/images/img/simulation_fabric_vr.jpg'},
+        {'src':'/static/easydesign/static/images/img/index_fabricList_2.jpg','imgLink':'/static/easydesign/static/images/img/index_fabric_2.jpg'},
+        {'src':'/static/easydesign/static/images/img/index_fabricList_3.jpg','imgLink':'/static/easydesign/static/images/img/index_fabric_3.jpg'},
+        {'src':'/static/easydesign/static/images/img/index_fabricList_4.jpg','imgLink':'/static/easydesign/static/images/img/index_fabric_4.jpg'}
+    ]
+};
 
     //接口 接收点击面料的地址
-    exports.simulationFabricUrl;
+//    exports.simulationFabricUrl;
+
     $('.simulation-box').twentytwenty();
     fraticLayer(simulationFabricObj);
     $('.twentytwenty-handle').css('left','600px');
-//    require('js/front/easydesign/Index/banner');
+    require('./banner');
     // 模拟效果
-//    require('js/front/easydesign/Index/simulation');
+    require('./simulation');
     // 设计资源库
-//    require('js/front/easydesign/Index/sourceLib');
+    require('./sourceLib');
     // 工作室轮播图
-   var studioShow = require('js/front/easydesign/Index/studioShow');
+   var studioShow = require('./studioShow');
 
     $(document).ready(function () {
         $('.exo_conbox li').append("<div class='top-line'></div><div class='right-line'></div><div class='bottom-line'></div><div class='left-line'></div>");
         var w = $(window).width();
         $('.banner-li').css("width",w);
-        // $('.banner-wrapper').css("height",w/3.84);
-
     });
 
     var top;
@@ -136,7 +138,7 @@ var simulationFabricObj = {'fabricList':[{'src':'/images/production/easydesign/i
        fraticLayer_position();
     }
 
-////////////////////////////////媒体图片鼠标划过特效 暂时未应用//////////////////////////////////
+// ////////////////////////////////媒体图片鼠标划过特效 暂时未应用//////////////////////////////////
     $(".video_icobutt_def").append('<span class="video_icobutt_def2"></span>');
     $(".video_icobutt_def2").css('opacity', 0);
     $(".video_icobutt_def").hover(function(){

@@ -11,6 +11,11 @@ fis.config.set('livereload.port', 35729);
 
 if (fis.IS_FIS3) {
 
+///////////////////////// 别名 ////////////////////////////////
+// fis.match('common:static/js/jquery/jquery.js', {id: 'jquery', moduleId: 'jquery',isMod: true });
+
+
+////////////////////// 雪碧图 /////////////////////////////
     // 启用 fis-spriter-csssprites 插件
     fis.match('::package', {
         spriter: fis.plugin('csssprites')

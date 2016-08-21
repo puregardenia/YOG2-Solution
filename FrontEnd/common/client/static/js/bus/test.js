@@ -1,0 +1,1 @@
+require('easydesign:widget/js/index.js');

@@ -1,5 +1,5 @@
 <link href="../static/css/global.less" rel="stylesheet" type="text/css"/>
-<link href="../static/css/footer.css" rel="stylesheet" type="text/css"/>
+<link href="../static/css/footer.less" rel="stylesheet" type="text/css"/>
 
 <div class="foot_box">
   <div class="footer-nav clearfix">

@@ -22,17 +22,31 @@ yog2 release --dest debug --watch
     这些参数还提供了缩写和组合的功能，比如上述的命令缩写后可以写成
         yog2 release -w -L -o -m -D -p -d debug
 }
+less编写区别{
+    1.需要手动加上width 和 height,部分需要加上'inline-block'、overflow:hidden;
+    2.图片路径写相对路径，需要图片合并的后面加上'?__sprite'
+        width: 68px;
+        height: 68px;
+        background-image: url('../images/icon/search.png?__sprite');
+}
 
-tpl中 require() js 需要js在static中,static中引用的js文件要在widget中
-
-在 widget 中require widget 不会执行
-在 tpl 中require widget 不会执行
 
 模块化开发{
     widget 中的组建会自动加模块包裹
         define(id, function(require, exports, module) {
             // body...
         })
+    static中的js可以调用static中的js,前提是需要封装
+
+    page中的tpl直接引入widget中的js,不会执行其中的代码
+    seajs中因为seajs会执行代码，所以不会出现问题
+
+    widget中的tpl可以嵌入{% script %} 标签, 然后使用模块调用
+        但是不可以嵌入{% require '' %}
+    page中的tpl可以嵌入{% require '' %}，
+        但是不可以嵌入{% script %}使用模块化的调用方法
+
+
     1.{
         // index.tpl
         {% require 'easydesign:static/js/index.js' %}

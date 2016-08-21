@@ -1,0 +1,1 @@
+{% widget 'common:widget/video/video.tpl' %}

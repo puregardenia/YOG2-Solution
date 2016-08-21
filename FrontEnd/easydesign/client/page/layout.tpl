@@ -1,5 +1,5 @@
 <!doctype html>
-{% html lang="en" framework="easydesign:static/js/mod.js" %}
+{% html lang="en" framework="common:static/js/optimize/mod.js" %}
     {% head %}
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,10 +7,10 @@
         <meta name="description" content="">
         <link rel="icon" href="/static/favicon.ico">
         <title>易设计-易家纺电子商务服务平台_花型库</title>
-        {% require "easydesign:static/js/jquery-1.10.2.js" %}
     {% endhead %}
 
     {% body %}
+        {% include 'common:page/top.tpl' %}
         {% include 'easydesign:page/header.tpl' %}
 
         {% block content %}

@@ -3,9 +3,6 @@
 {% block content %}
 <link href="../static/css/global.less" rel="stylesheet" type="text/css"/>
 <link href="../static/css/index.less" rel="stylesheet" type="text/css"/>
-  {% include 'common:page/top.tpl' %}
-
-  {% widget 'easydesign:widget/tpl/banner/banner.tpl' %}
 
   <div class="index-banner-box">
     <div class="banner-wrapper">
@@ -46,13 +43,13 @@
       <div class="fabric_list">
         <ul>
           <li>
-            <img src="../static/images/img/index_fabricList_1.jpg" imglink="../static/images/img/simulation_fabric_vr.jpg"></li>
+            <img src="../static/images/img/index_fabricList_1.jpg" imglink="/static/easydesign/static/images/img/simulation_fabric_vr.jpg"></li>
         <li>
-            <img src="../static/images/img/index_fabricList_2.jpg" imglink="../static/images/img/index_fabric_2.jpg"></li>
+            <img src="../static/images/img/index_fabricList_2.jpg" imglink="/static/easydesign/static/images/img/index_fabric_2.jpg"></li>
         <li>
-            <img src="../static/images/img/index_fabricList_3.jpg" imglink="../static/images/img/index_fabric_3.jpg"></li>
+            <img src="../static/images/img/index_fabricList_3.jpg" imglink="/static/easydesign/static/images/img/index_fabric_3.jpg"></li>
         <li>
-            <img src="../static/images/img/index_fabricList_4.jpg" imglink="../static/images/img/index_fabric_4.jpg"></li>
+            <img src="../static/images/img/index_fabricList_4.jpg" imglink="/static/easydesign/static/images/img/index_fabric_4.jpg"></li>
 
         </ul>
       </div>
@@ -626,10 +623,12 @@
               <div class="video_comp"  style="position: relative;">
 
                 <div class="video_cen">
-              <iframe id="playVideo" name=" " src="/easydesign/video" width="750px" height="420" marginheight="0" marginwidth="0" style="border:0px" frameborder="0" scrolling="no"></iframe>
+              <iframe id="playVideo" name=" " src="/common/video" width="750px" height="420" marginheight="0" marginwidth="0" style="border:0px" frameborder="0" scrolling="no"></iframe>
 
             </div>
           </div>
 
         </div>
+
+        {% require 'easydesign:static/js/Index/index.js' %}
 {% endblock %}

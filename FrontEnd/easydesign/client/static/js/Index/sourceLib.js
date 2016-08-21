@@ -1,6 +1,7 @@
-define(function (require, exports, module) {
-    require('jquery');
-    require('lazyload');
+define('easydesign:static/js/Index/sourceLib', function(require, exports, module) {
+
+    require('common:static/js/jquery');
+    require('common:static/js/lazyload');
 /////////////////////////////////////////////易家纺设计资源库 鼠标滑过效果///////////////////////////////
     // 图片延时加载
     $('ul.exo_conbox:eq(0) img').lazyload();
