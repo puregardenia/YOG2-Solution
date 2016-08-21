@@ -28,7 +28,7 @@
             <div id="middle" class="container">
                 <p>Page render: {{startTime}}</p>
                 <p>Content below will be loaded by bigpipe after 2s</p>
-                {% spage "spa:widget/bigpipe/bigpipe.tpl" id="bigpipe" mode="async" %}
+                {% widget "spa:widget/bigpipe/bigpipe.tpl" id="bigpipe" mode="async" %}
                 {% block content %}
                 {% endblock %}
             </div>
