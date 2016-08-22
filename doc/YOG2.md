@@ -89,10 +89,8 @@ define(id, function(require, exports, module) {
 - page中的tpl直接引入widget中的js,不会执行其中的代码
 > seajs中因为seajs会执行代码，所以不会出现问题
 
-- widget中的tpl可以嵌入{% script %} 标签, 然后使用模块调用
-    但是不可以嵌入{% require '' %}
-- page中的tpl可以嵌入{% require '' %}，
-    但是不可以嵌入{% script %}使用模块化的调用方法
+- page/widget中的tpl都可以可以嵌入{% script %} 标签, 然后使用模块调用
+    也可以嵌入{% require '' %}，但是这种要求js
 
 ### Usage
 - Demo1

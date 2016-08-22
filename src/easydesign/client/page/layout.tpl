@@ -16,7 +16,7 @@
         {% block content %}
         {% endblock %}
 
-        {% include 'easydesign:page/footer.tpl' %}
+        {% include 'common:page/footer.tpl' %}
     {% endbody %}
 
 {% endhtml %}

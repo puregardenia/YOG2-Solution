@@ -1,3 +1,7 @@
+define('easydesign:static/js/Index/index', function(require, exports, module) {
+
+
+
 require('common:static/js/jquery');
 require('common:static/js/layer/layer');
 require('common:static/js/event.move.js');
@@ -227,3 +231,7 @@ var simulationFabricObj = {
     $(window).resize(function () {
         fraticLayer_resize();
     });
+
+
+
+});

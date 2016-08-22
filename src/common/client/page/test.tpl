@@ -1,5 +1,8 @@
-//////////////////////////////////////////////////////
-/////////////////////////////////////////////////////
+{% extends 'common:page/layout.tpl' %}
+
+
+{% block content %}
+
 </br>
 </br>
 </br>
@@ -19,3 +22,10 @@ isVip: {{isVip}}
 {% endfor %}
 </ul>
 
+{% script %}
+
+    require('common:widget/js/index.js');
+
+{% endscript %}
+
+{% endblock %}
