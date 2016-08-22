@@ -1,4 +1,4 @@
-define('easydesign:static/js/Index/sourceLib', function(require, exports, module) {
+
 
     require('common:jquery');
     require('common:lazyload');
@@ -38,5 +38,3 @@ define('easydesign:static/js/Index/sourceLib', function(require, exports, module
     $(document).ready(function () {
         switchSourceLib();
     })
-
-});

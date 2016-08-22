@@ -11,7 +11,6 @@ scaling     是否等比例自动缩放
 width       图片最大高
 height      图片最大宽
 */
-define('easydesign:static/js/Index/loadImage', function (require, exports, module) {
 
 var Spinner = require('common:spin'); //依赖插件 用js实现的等待图标
   //依赖插件等待图标配置选项
@@ -189,5 +188,3 @@ jQuery.fn.LoadImage=function(option){
 
   });
 }
-
-});

@@ -1,4 +1,4 @@
-define('easydesign:static/js/Index/studioShow', function (require, exports, module) {
+
   require('common:jquery');
   require('common:animateNumber');
 
@@ -39,6 +39,3 @@ define('easydesign:static/js/Index/studioShow', function (require, exports, modu
       flag = true;
     }
   }
-
-
-});

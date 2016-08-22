@@ -1,9 +1,8 @@
-/**
- * 禁用了拖动中间条
- * 设置了偏移量
- * 修改了截取属性clip
- */
-define('easydesign:static/js/Index/twentytwenty/twentytwenty.index', function(require, exports, module) {
+    /**
+     * 禁用了拖动中间条
+     * 设置了偏移量
+     * 修改了截取属性clip
+     */
 
     require('common:jquery');
     require.loadCss ({url: '/static/easydesign/static/js/Index/twentytwenty/twentytwenty.css'});
@@ -135,6 +134,3 @@ define('easydesign:static/js/Index/twentytwenty/twentytwenty.index', function(re
     };
 
 })(jQuery);
-
-
-});

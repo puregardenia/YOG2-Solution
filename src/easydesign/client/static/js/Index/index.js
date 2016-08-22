@@ -1,19 +1,18 @@
-define('easydesign:static/js/Index/index', function(require, exports, module) {
 
-require('common:jquery');
-require('common:layer');
-require('common:event.move');
-require('./loadImage');
-require('./twentytwenty/twentytwenty.index');
+    require('common:jquery');
+    require('common:layer');
+    require('common:event.move');
+    require('./loadImage');
+    require('./twentytwenty/twentytwenty.index');
 
-var simulationFabricObj = {
-    'fabricList':[
-        {'src':'/static/easydesign/static/images/img/index_fabricList_1.jpg','imgLink':'/static/easydesign/static/images/img/simulation_fabric_vr.jpg'},
-        {'src':'/static/easydesign/static/images/img/index_fabricList_2.jpg','imgLink':'/static/easydesign/static/images/img/index_fabric_2.jpg'},
-        {'src':'/static/easydesign/static/images/img/index_fabricList_3.jpg','imgLink':'/static/easydesign/static/images/img/index_fabric_3.jpg'},
-        {'src':'/static/easydesign/static/images/img/index_fabricList_4.jpg','imgLink':'/static/easydesign/static/images/img/index_fabric_4.jpg'}
-    ]
-};
+    var simulationFabricObj = {
+        'fabricList':[
+            {'src':'/static/easydesign/static/images/img/index_fabricList_1.jpg','imgLink':'/static/easydesign/static/images/img/simulation_fabric_vr.jpg'},
+            {'src':'/static/easydesign/static/images/img/index_fabricList_2.jpg','imgLink':'/static/easydesign/static/images/img/index_fabric_2.jpg'},
+            {'src':'/static/easydesign/static/images/img/index_fabricList_3.jpg','imgLink':'/static/easydesign/static/images/img/index_fabric_3.jpg'},
+            {'src':'/static/easydesign/static/images/img/index_fabricList_4.jpg','imgLink':'/static/easydesign/static/images/img/index_fabric_4.jpg'}
+        ]
+    };
 
     //接口 接收点击面料的地址
 //    exports.simulationFabricUrl;
@@ -230,6 +229,4 @@ var simulationFabricObj = {
         fraticLayer_resize();
     });
 
-
-
-});
+    var that = this;

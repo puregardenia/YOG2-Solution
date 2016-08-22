@@ -12,9 +12,13 @@ fis.config.set('livereload.port', 35729);
 if (fis.IS_FIS3) {
 
 
+// 设置自动包裹 define(id,function(){})
+fis.match('static/js/**/*.js', { isMod: true });
 
 
-////////////////////// 雪碧图 /////////////////////////////
+
+
+/////////////// 雪碧图 ////////////////
     // 启用 fis-spriter-csssprites 插件
     fis.match('::package', {
         spriter: fis.plugin('csssprites')
@@ -32,13 +36,7 @@ if (fis.IS_FIS3) {
     });
 
 
-
-
-
-
-
-
-///////////////////// 优化 //////////////////////////////
+///////////////////// 优化 ///////////////////////////
     fis.match('*.js', {
         // fis-optimizer-uglify-js 插件进行压缩，已内置
         optimizer: fis.plugin('uglify-js')
@@ -54,7 +52,7 @@ if (fis.IS_FIS3) {
         optimizer: fis.plugin('png-compressor')
     });
 
-//////////////////////// 工作模式 ////////////////////////////
+//////////////////////// 工作模式 /////////////////////
     fis.media('debug').match('*', {
         useHash: false,
         useSprite: false,
@@ -72,6 +70,7 @@ if (fis.IS_FIS3) {
     });
 
 } else {
+
 /////////////// FIS2 //////////////
     fis.config.set('deploy', {
         debug: {

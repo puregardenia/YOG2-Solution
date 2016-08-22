@@ -1,5 +1,3 @@
-define('easydesign:static/js/Index/banner', function(require, exports, module) {
-
 
 require('common:jquery');
 require('common:switchable');
@@ -35,7 +33,5 @@ $(window).resize(function(){
     $('.switchable-triggers li').removeClass('current').eq(0).addClass('current');
 
     initSwitch();
-
-});
 
 });
