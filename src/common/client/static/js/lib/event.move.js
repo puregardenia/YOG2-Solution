@@ -20,8 +20,7 @@
 // deltaY:  Distance the finger has moved since last event.
 // velocityX:
 // velocityY:  Average velocity over last few events.
-define('common:static/js/event.move', function (require, exports, module) {
-    require('jquery');
+
 
 (function (module) {
     if (typeof define === 'function' && define.amd) {
@@ -584,7 +583,12 @@ define('common:static/js/event.move', function (require, exports, module) {
             }
         })(jQuery);
     };
-});
 
+    if (typeof define === "function" ) {
+        define('common:event.move', function (require, exports, module) {
+            require('common:jquery');
+            return jQuery;
+        });
+    }
 
 });

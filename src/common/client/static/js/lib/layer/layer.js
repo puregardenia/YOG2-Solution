@@ -6,13 +6,11 @@
 @Copyright：Sentsin Xu(贤心)
 @官网：http://sentsin.com/jquery/layer
 */
-define('common:static/js/layer/layer', function(require, exports, module) {
-
 
 ; !function (window, undefined) {
     "use strict";
 
-    var path = '/static/common/static/js/layer', //组件存放目录，为空表示自动获取(不用填写host，相对站点的根目录即可)。
+    var path = '/static/common/static/js/lib/layer', //组件存放目录，为空表示自动获取(不用填写host，相对站点的根目录即可)。
 
 $, win, ready = {
     host: 'http://' + location.host,
@@ -986,9 +984,13 @@ $, win, ready = {
         (new Image()).src = layer.path + '/skin/default/xubox_ico0.png';
     };
 
-    var require1 = '../jquery'; //若采用seajs，需正确配置jquery的相对路径。未用可无视此处。
-    if (window.seajs) {
-        define([require1, './skin/layer.css'], function (require, exports, module) {
+    // var require1 = '../jquery'; //若采用seajs，需正确配置jquery的相对路径。未用可无视此处。
+
+    // if (window.seajs) {
+    if (typeof define === "function" ) {
+        // define([require1, './skin/layer.css'], function (require, exports, module) {
+        define('common:layer', function (require, exports, module) {
+            require('common:jquery');
             ready.run();
             module.exports = layer;
         });
@@ -997,5 +999,3 @@ $, win, ready = {
     }
 
 }(window);
-
-});

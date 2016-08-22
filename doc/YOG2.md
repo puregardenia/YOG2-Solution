@@ -85,12 +85,8 @@ define(id, function(require, exports, module) {
 ```
 
 - static中的js可以调用static中的js,前提是需要封装
-
-- page中的tpl直接引入widget中的js,不会执行其中的代码
-> seajs中因为seajs会执行代码，所以不会出现问题
-
 - page/widget中的tpl都可以可以嵌入{% script %} 标签, 然后使用模块调用
-    也可以嵌入{% require '' %}，但是这种要求js
+    也可以嵌入{% require '' %}，但是这种要求js是非模块化的
 
 ### Usage
 - Demo1

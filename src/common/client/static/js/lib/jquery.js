@@ -11,6 +11,7 @@
 *
 * Date: Tue Nov 13 2012 08:20:33 GMT-0500 (Eastern Standard Time)
 */
+
 (function (window, undefined) {
     var
     // A central reference to the root jQuery(document)
@@ -9467,7 +9468,7 @@
     // noConflict to hide this version of jQuery, it will work.
 
     if (typeof define === "function" ) {
-        define('common:static/js/jquery', function () { return jQuery; });
+        define('common:jquery', function () { return jQuery; });
     }
 
 })(window);

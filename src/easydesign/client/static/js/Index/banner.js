@@ -1,8 +1,8 @@
 define('easydesign:static/js/Index/banner', function(require, exports, module) {
 
 
-require('common:static/js/jquery');
-require('common:static/js/switchable');
+require('common:jquery');
+require('common:switchable');
 
 function initSwitch (){
     $('.banner-box').switchable({

@@ -12,8 +12,7 @@
  * Version:  1.9.7
  *
  */
-define('common:static/js/lazyload', function(require, exports, module){
-    require('common:static/js/jquery');
+
 
 (function($, window, document, undefined) {
     var $window = $(window);
@@ -240,6 +239,11 @@ define('common:static/js/lazyload', function(require, exports, module){
         "left-of-fold"   : function(a) { return !$.rightoffold(a, {threshold : 0}); }
     });
 
-})(jQuery, window, document);
+    if (typeof define === "function" ) {
+        define('common:lazyload', function () {
+            require('common:jquery');
+            return jQuery;
+        });
+    }
 
-});
+})(jQuery, window, document);

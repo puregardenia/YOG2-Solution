@@ -4,8 +4,6 @@
  */
 
 // ['...'] notation using to avoid names minification by Google Closure Compiler
-define('common:static/js/animateNumber', function (require, exports, module) {
-  require('jquery');
 
 (function($) {
   var reverse = function(value) {
@@ -173,7 +171,11 @@ define('common:static/js/animateNumber', function (require, exports, module) {
     return target.animate.apply(target, args);
   };
 
+  if (typeof define === "function" ) {
+      define('common:animateNumber', function () {
+        require('common:jquery');
+        return jQuery;
+      });
+  }
+
 }(jQuery));
-
-
-});

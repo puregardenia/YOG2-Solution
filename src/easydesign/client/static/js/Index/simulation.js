@@ -1,6 +1,6 @@
 define('easydesign:static/js/Index/simulation', function(require, exports, module) {
 
-require('common:static/js/switchable');
+require('common:switchable');
 var Accordion = $('.sim_img_box ul');
 
 Accordion.switchable({

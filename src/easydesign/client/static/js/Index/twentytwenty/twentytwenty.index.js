@@ -5,7 +5,7 @@
  */
 define('easydesign:static/js/Index/twentytwenty/twentytwenty.index', function(require, exports, module) {
 
-    require('common:static/js/jquery');
+    require('common:jquery');
     require.loadCss ({url: '/static/easydesign/static/js/Index/twentytwenty/twentytwenty.css'});
 
 (function($){

@@ -1,1 +1,1 @@
-require('easydesign:widget/js/index.js');
+require('common:jquery');

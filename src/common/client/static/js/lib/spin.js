@@ -29,7 +29,6 @@
     var target = document.getElementById('foo')
     var spinner = new Spinner(opts).spin(target)
  */
-define('common:static/js/spin', function(require, exports, module) {
 
 ;(function (root, factory) {
 
@@ -374,10 +373,9 @@ define('common:static/js/spin', function(require, exports, module) {
     else useCssAnimations = vendor(probe, 'animation')
   }
 
+  if (typeof define === "function" ) {
+      define('common:spin', function () { return Spinner; });
+  }
   return Spinner
 
 }));
-
-
-
-});

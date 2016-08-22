@@ -1,10 +1,8 @@
 define('easydesign:static/js/Index/index', function(require, exports, module) {
 
-
-
-require('common:static/js/jquery');
-require('common:static/js/layer/layer');
-require('common:static/js/event.move.js');
+require('common:jquery');
+require('common:layer');
+require('common:event.move');
 require('./loadImage');
 require('./twentytwenty/twentytwenty.index');
 

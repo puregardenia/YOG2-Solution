@@ -4,7 +4,7 @@
  * 修改了截取属性clip
  */
 
-  require('common:/static/js/jquery');
+  require('common:jquery');
   require('./twentytwenty.css');
 
 (function($){

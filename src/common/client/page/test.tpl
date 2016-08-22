@@ -22,10 +22,7 @@ isVip: {{isVip}}
 {% endfor %}
 </ul>
 
-{% script %}
+   {% require 'common:static/js/bus/test.js' %}
 
-    require('common:widget/js/index.js');
-
-{% endscript %}
 
 {% endblock %}

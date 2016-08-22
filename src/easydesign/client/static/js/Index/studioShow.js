@@ -1,6 +1,6 @@
 define('easydesign:static/js/Index/studioShow', function (require, exports, module) {
-  require('common:static/js/jquery');
-  require('common:static/js/animateNumber');
+  require('common:jquery');
+  require('common:animateNumber');
 
   $('.studio_box').switchable({
      triggers: false,

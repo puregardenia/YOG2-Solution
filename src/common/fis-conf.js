@@ -7,14 +7,22 @@ fis.config.set('namespace', 'common');
 
 // chrome下可以安装插件实现livereload功能
 // https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei
-// fis.config.set('livereload.port', 35729);
+fis.config.set('livereload.port', 35729);
 
 if (fis.IS_FIS3) {
-///////////////////////// 别名 ////////////////////////////////
-// fis.match('common:static/js/jquery/jquery', {id: 'jquery', moduleId: 'jquery',isMod: true });
+
+///////////////////////// 别名 ///////////////////////////////////////////////////////////////////
+// fis.match('static/js/lib/jquery.js', {id: 'jquery.js',moduleId: 'common:jquery', isMod: true });
+    fis.match('static/js/lib/jquery.js', {id: 'jquery.js', isMod: false });
+    fis.match('static/js/lib/switchable.js', {id: 'switchable.js', isMod: false });
+    fis.match('static/js/lib/layer/layer.js', {id: 'layer.js', isMod: false });
+    fis.match('static/js/lib/event.move.js', {id: 'event.move', isMod: false });
+    fis.match('static/js/lib/lazyload.js', {id: 'lazyload.js', isMod: false });
+    fis.match('static/js/lib/animateNumber.js', {id: 'animateNumber.js', isMod: false });
+    fis.match('static/js/lib/spin.js', {id: 'spin.js', isMod: false });
 
 
-////////////////////// 雪碧图 /////////////////////////////
+//////////////// 雪碧图 ///////////////
     // 启用 fis-spriter-csssprites 插件
     fis.match('::package', {
       spriter: fis.plugin('csssprites')
@@ -27,7 +35,7 @@ if (fis.IS_FIS3) {
       optimizer: fis.plugin('clean-css')
     });
 
-///////////////////// 优化 //////////////////////////////
+///////////////////// 优化 ////////////////////////////
     fis.match('*.js', {
         // fis-optimizer-uglify-js 插件进行压缩，已内置
         optimizer: fis.plugin('uglify-js')
@@ -44,7 +52,7 @@ if (fis.IS_FIS3) {
     });
 
 
-//////////////////////// 工作模式 ////////////////////////////
+/////////// 工作模式 //////////////
     fis.media('debug').match('*', {
         useHash: false,
         useSprite: false,
