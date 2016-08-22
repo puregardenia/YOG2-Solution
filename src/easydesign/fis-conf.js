@@ -1,6 +1,7 @@
 /**
  * @file FIS 配置
  * @author
+ * 需要 npm install -g fis3-postpackager-loader
  */
 
 fis.config.set('namespace', 'easydesign');
@@ -16,6 +17,13 @@ if (fis.IS_FIS3) {
 fis.match('static/js/**/*.js', { isMod: true });
 
 
+
+// 设置静态文件自动打包为单文件
+fis.match('::package', {
+    postpackager: fis.plugin('loader', {
+        allInOne: true
+    })
+});
 
 
 /////////////// 雪碧图 ////////////////
