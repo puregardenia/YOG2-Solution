@@ -19,11 +19,11 @@ fis.match('static/js/**/*.js', { isMod: true });
 
 
 // 设置静态文件自动打包为单文件
-fis.match('::package', {
-    postpackager: fis.plugin('loader', {
-        allInOne: true
-    })
-});
+// fis.match('::package', {
+//     postpackager: fis.plugin('loader', {
+//         allInOne: true
+//     })
+// });
 
 
 /////////////// 雪碧图 ////////////////
