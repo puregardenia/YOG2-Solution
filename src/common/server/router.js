@@ -1,3 +1,6 @@
+var opt = require('./action/optimize.js');
+
+
 module.exports = function(router){
     // you can add app common logic here
     // router.use(function(req, res, next){
@@ -22,4 +25,14 @@ module.exports = function(router){
     //     .get(router.action('book').get)
     //     // DELETE /easydesign/book/1
     //     .delete(router.action('book').delete);
+
+
+    router.get('/bigpipe', function(req, res){
+        opt.bigpipe(req, res);
+    });
+
+    router.get('/quickling', function(req, res){
+        opt.quickling(req, res);
+    });
+
 };

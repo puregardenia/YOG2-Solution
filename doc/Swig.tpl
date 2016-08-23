@@ -47,7 +47,7 @@
 
 <!-- 页面中引用script标签 -->
 {% script %}
-    var word = require('easydesign:widget/js/index.js');
+    var word = require('easydesign:widget/js/mock.js');
     alert(word);
 {% endscript %}
 <!-- /页面中引用script标签 -->

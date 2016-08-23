@@ -1,13 +1,4 @@
-{% extends 'common:page/layout.tpl' %}
-
-
-{% block content %}
-
-</br>
-</br>
-</br>
-</br>
-</br>
+<p>-------组件开始--------</p>
 
 isVip: {{isVip}}
 
@@ -22,7 +13,4 @@ isVip: {{isVip}}
 {% endfor %}
 </ul>
 
-   {% require 'common:static/js/bus/test.js' %}
-
-
-{% endblock %}
+<p>-------组件结束--------</p>

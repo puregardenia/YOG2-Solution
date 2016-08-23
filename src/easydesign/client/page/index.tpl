@@ -633,7 +633,7 @@
         </div>
 
 {% script %}
-  require('easydesign:static/js/Index/index.js')
+  require('easydesign:static/js/Index/mock.js')
 {% endscript %}
 
 

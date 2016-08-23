@@ -93,28 +93,28 @@ define(id, function(require, exports, module) {
 
 ```javascript
 // index.tpl
-{% require 'easydesign:static/js/index.js' %}
+{% require 'easydesign:static/js/mock.js' %}
 
-// easydesign:static/js/index.js
-var result = require('easydesign:widget/js/index.js');
+// easydesign:static/js/mock.js
+var result = require('easydesign:widget/js/mock.js');
 require('easydesign:widget/js/jquery/jquery');
 alert(result);
 $('.nav2').hide();
 
-// easydesign:widget/js/index.js
+// easydesign:widget/js/mock.js
 module.exports = 'A';
 ```
 - Demo2
 
 ```javascript
 // index.tpl
-{% require 'easydesign:static/js/index.js' %}
+{% require 'easydesign:static/js/mock.js' %}
 
-// easydesign:static/js/index.js
-var result = require('easydesign:widget/js/index.js');
+// easydesign:static/js/mock.js
+var result = require('easydesign:widget/js/mock.js');
 alert(result);
 
-// easydesign:widget/js/index.js
+// easydesign:widget/js/mock.js
 require('easydesign:widget/js/jquery/jquery');
 $('.nav2').hide();
 module.exports = 'A';
@@ -126,11 +126,11 @@ module.exports = 'A';
 
 // widget/tpl/banner/banner.tpl
 {% script %}
-    var result = require('easydesign:widget/js/index.js');
+    var result = require('easydesign:widget/js/mock.js');
     alert(result.string());
 {% endscript %}
 
-// widget/js/index.js
+// widget/js/mock.js
 module.exports.string = 'A';
 module.exports.val = function() {
     return 'This is a Function';
