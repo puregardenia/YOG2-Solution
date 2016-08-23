@@ -6,7 +6,7 @@
      </div>
      
      {% script %}
-        require('spa:widget/js/index/mock.js').init();
+        require('spa:widget/js/index/index.js').init();
      {% endscript %}
 
      {% require "spa:page/index.tpl" %}

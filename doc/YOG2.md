@@ -93,9 +93,9 @@ define(id, function(require, exports, module) {
 
 ```javascript
 // index.tpl
-{% require 'easydesign:static/js/mock.js' %}
+{% require 'easydesign:static/js/index.js' %}
 
-// easydesign:static/js/mock.js
+// easydesign:static/js/index.js
 var result = require('easydesign:widget/js/mock.js');
 require('easydesign:widget/js/jquery/jquery');
 alert(result);
@@ -108,9 +108,9 @@ module.exports = 'A';
 
 ```javascript
 // index.tpl
-{% require 'easydesign:static/js/mock.js' %}
+{% require 'easydesign:static/js/index.js' %}
 
-// easydesign:static/js/mock.js
+// easydesign:static/js/index.js
 var result = require('easydesign:widget/js/mock.js');
 alert(result);
 
