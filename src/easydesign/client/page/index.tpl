@@ -632,11 +632,6 @@
 
         </div>
 
-{% script %}
-  require('easydesign:static/js/Index/index.js')
-{% endscript %}
-
-
-
+<script src="../static/js/Index/index.js"></script>
 
 {% endblock %}

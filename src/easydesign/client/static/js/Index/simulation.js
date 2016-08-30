@@ -1,3 +1,4 @@
+define('easydesign:static/js/Index/simulation', function (require, exports, module) {
 
 require('common:switchable');
 var Accordion = $('.sim_img_box ul');
@@ -40,4 +41,7 @@ Accordion.switchable({
         // if beforeSwitch() returns 'false', the switch event stops
         return this.index !== toIndex;
     }
+});
+
+
 });

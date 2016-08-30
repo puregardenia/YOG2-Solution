@@ -14,21 +14,16 @@ if (fis.IS_FIS3) {
 
 
 // 设置自动包裹 define(id,function(){})
-fis.match('static/js/**/*.js', { isMod: true });
-
-
-
-// 设置静态文件自动打包为单文件
-// fis.match('::package', {
-//     postpackager: fis.plugin('loader', {
-//         allInOne: true
-//     })
-// });
+// fis.match('static/js/**/*.js', { isMod: true });
 
 
 /////////////// 雪碧图 ////////////////
     // 启用 fis-spriter-csssprites 插件
     fis.match('::package', {
+        // 设置静态文件自动打包为单文件
+        // postpackager: fis.plugin('loader', {
+        //     allInOne: true
+        // }),
         spriter: fis.plugin('csssprites')
     });
 
@@ -62,9 +57,9 @@ fis.match('static/js/**/*.js', { isMod: true });
 
 //////////////////////// 工作模式 /////////////////////
     fis.media('debug').match('*', {
-        useHash: false,
-        useSprite: false,
-        optimizer: null,
+        // useHash: false,
+        // useSprite: false,
+        // optimizer: null,
         deploy: fis.plugin('http-push', {
             receiver: 'http://127.0.0.1:8085/yog/upload',
             to: '/'

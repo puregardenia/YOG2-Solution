@@ -1,4 +1,6 @@
-﻿/*
+﻿define('easydesign:static/js/Index/loadImage', function (require, exports, module) {
+
+/*
 **************图片预加载插件******************
 ///说明：在图片加载前显示一个加载标志，当图片下载完毕后显示图片出来
 可对图片进行是否自动缩放功能
@@ -188,3 +190,6 @@ jQuery.fn.LoadImage=function(option){
 
   });
 }
+
+
+});

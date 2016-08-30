@@ -1,3 +1,4 @@
+define('easydesign:static/js/Index/studioShow', function (require, exports, module) {
 
   require('common:jquery');
   require('common:animateNumber');
@@ -39,3 +40,6 @@
       flag = true;
     }
   }
+
+
+});

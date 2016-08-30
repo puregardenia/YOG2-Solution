@@ -1,6 +1,6 @@
 exports.init = function() {
     var navs = $('.navbar-nav li');
-    
+
     Page.on('pagedone', function(url) {
         navs
             .removeClass('active')
