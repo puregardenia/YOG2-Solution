@@ -1,4 +1,4 @@
-define('easydesign:static/js/Index/twentytwenty/twentytwenty.index', function (require, exports, module) {
+//define('easydesign:static/js/Index/twentytwenty/twentytwenty.index', function (require, exports, module) {
 
     /**
      * 禁用了拖动中间条
@@ -138,4 +138,4 @@ define('easydesign:static/js/Index/twentytwenty/twentytwenty.index', function (r
 })(jQuery);
 
 
-});
+//});

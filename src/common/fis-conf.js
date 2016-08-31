@@ -22,6 +22,17 @@ if (fis.IS_FIS3) {
     fis.match('static/js/lib/spin.js', {id: 'spin.js', isMod: false });
 
 
+    fis.match('static/js/lib/**.{css,jpg,jpeg,png}', {
+        useHash: false
+    });
+
+
+/////////////// 打包 /////////////////
+    fis.match('static/js/lib/**.js', {
+        packTo: 'static/js/lib/lib.js'
+    });
+
+
 //////////////// 雪碧图 ///////////////
     // 启用 fis-spriter-csssprites 插件
     fis.match('::package', {
@@ -54,9 +65,9 @@ if (fis.IS_FIS3) {
 
 /////////// 工作模式 //////////////
     fis.media('debug').match('*', {
-        useHash: false,
-        useSprite: false,
-        optimizer: null,
+        //useHash: false,
+        //useSprite: false,
+        //optimizer: null,
         deploy: fis.plugin('http-push', {
             receiver: 'http://127.0.0.1:8085/yog/upload',
             to: '/'

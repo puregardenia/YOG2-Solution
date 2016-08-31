@@ -136,3 +136,18 @@ module.exports.val = function() {
     return 'This is a Function';
 }
 ```
+
+## mod
+
+> lib 统一打包为一个文件
+> 业务js写到 static 下，并且定义为模块，然后手动设置文件的打包
+
+- 加载 js 
+```
+ require('common:jquery'); 
+```
+
+- 加载 css
+```
+  require.loadCss({url: 'static/common/static/js/lib/layer/skin/layer.css'}); 
+```

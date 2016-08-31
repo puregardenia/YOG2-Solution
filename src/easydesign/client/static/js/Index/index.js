@@ -5,6 +5,26 @@
     require('./loadImage');
     require('./twentytwenty/twentytwenty.index');
 
+
+    $(document).ready(function(){
+        //官网欢迎页
+        layer.open({
+            type: 2,
+            //skin: 'layui-layer-lan',
+            title: 'layer弹层组件',
+            fix: false,
+            shadeClose: true,
+            maxmin: true,
+            area: ['1000px', '500px'],
+            content: 'http://puregardenia.com/'
+        });
+
+        layer.msg('欢迎使用layer');
+
+    });
+
+
+
     var simulationFabricObj = {
         'fabricList':[
             {'src':'/static/easydesign/static/images/img/index_fabricList_1.jpg','imgLink':'/static/easydesign/static/images/img/simulation_fabric_vr.jpg'},
@@ -42,39 +62,6 @@
         }
 
     });
-
-/////////////////////////////////////////////弹出层/////////////////////////////////////////////////
-
-    $('.videoDiv').on('click',function () {
-        $.layer({
-            type: 2,
-            title: false,
-            area: ['910px', '700px'],
-            fix: false,
-            shadeClose: false,
-            offset: [($(window).height() - 700)/2+'px', ''], //上下垂直居中
-            border: [0],
-            shade : [0.9, '#000'],
-            iframe: {src: ''}
-        });
-    });
-
-    $('.a04').on('click',function () {
-        $.layer({
-            type: 2,
-            title: false,
-            area: ['910px', '700px'],
-            fix: false,
-            shadeClose: false,
-            offset: [($(window).height() - 700)/2+'px', ''], //上下垂直居中
-            border: [0],
-            shade : [0.9, '#000'],
-            iframe: {src: ''}
-        });
-    });
-
-
-
 
 
 /////////////////////////////////////////////面料对比遮罩及点击事件////////////////////////////////////////////////

@@ -1,4 +1,4 @@
-define('easydesign:static/js/Index/banner', function (require, exports, module) {
+//define('easydesign:static/js/Index/banner', function (require, exports, module) {
 
 require('common:jquery');
 require('common:switchable');
@@ -37,4 +37,4 @@ $(window).resize(function(){
 
 });
 
-});
+//});

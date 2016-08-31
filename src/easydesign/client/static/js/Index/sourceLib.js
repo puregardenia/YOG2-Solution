@@ -1,4 +1,4 @@
-define('easydesign:static/js/Index/sourceLib', function (require, exports, module) {
+//define('easydesign:static/js/Index/sourceLib', function (require, exports, module) {
 
     require('common:jquery');
     require('common:lazyload');
@@ -40,4 +40,4 @@ define('easydesign:static/js/Index/sourceLib', function (require, exports, modul
     })
 
 
-});
+//});

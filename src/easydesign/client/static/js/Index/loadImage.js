@@ -1,4 +1,4 @@
-﻿define('easydesign:static/js/Index/loadImage', function (require, exports, module) {
+﻿//define('easydesign:static/js/Index/loadImage', function (require, exports, module) {
 
 /*
 **************图片预加载插件******************
@@ -192,4 +192,4 @@ jQuery.fn.LoadImage=function(option){
 }
 
 
-});
+//});

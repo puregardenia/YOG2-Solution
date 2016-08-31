@@ -14,16 +14,19 @@ if (fis.IS_FIS3) {
 
 
 // 设置自动包裹 define(id,function(){})
-// fis.match('static/js/**/*.js', { isMod: true });
+    fis.match('static/js/**/*.js', { isMod: true });
+
+/////////////// 打包 /////////////////
+    fis.match('static/js/Index/**.js', {
+        packTo: 'static/js/Index/index_pkg.js'
+    });
+
 
 
 /////////////// 雪碧图 ////////////////
     // 启用 fis-spriter-csssprites 插件
     fis.match('::package', {
         // 设置静态文件自动打包为单文件
-        // postpackager: fis.plugin('loader', {
-        //     allInOne: true
-        // }),
         spriter: fis.plugin('csssprites')
     });
 

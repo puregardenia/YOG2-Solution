@@ -1,803 +1,647 @@
-﻿/****************************************
-@Name：layer v1.8.5 弹层组件开发版
-@Author：贤心
-@Date：2014-08-13
-@Blog：http://sentsin.com
-@Copyright：Sentsin Xu(贤心)
-@官网：http://sentsin.com/jquery/layer
-*/
+/*!
 
-; !function (window, undefined) {
+ @Name：layer v2.4 弹层组件
+ @Author：贤心
+ @Site：http://layer.layui.com
+ @License：LGPL
+
+ */
+
+;!function(window, undefined){
     "use strict";
 
-    var path = '/static/common/static/js/lib/layer', //组件存放目录，为空表示自动获取(不用填写host，相对站点的根目录即可)。
+    var $, win, ready = {
+        getPath: function(){
+            var js = document.scripts, script = js[js.length - 1], jsPath = script.src;
+            if(script.getAttribute('merge')) return;
+            return jsPath.substring(0, jsPath.lastIndexOf("/") + 1);
+        }(),
 
-$, win, ready = {
-    host: 'http://' + location.host,
-    getPath: function () {
-        var js = document.scripts, jsPath = js[0].src;
-        return path ? ready.host + path : jsPath.substring(0, jsPath.indexOf("/Static") + 1);
-    },
+        //屏蔽Enter触发弹层
+        enter: function(e){
+            if(e.keyCode === 13) e.preventDefault();
+        },
+        config: {}, end: {},
+        btn: ['&#x786E;&#x5B9A;','&#x53D6;&#x6D88;'],
 
-    //五种原始层模式
-    type: ['dialog', 'page', 'iframe', 'loading', 'tips']
-};
+        //五种原始层模式
+        type: ['dialog', 'page', 'iframe', 'loading', 'tips']
+    };
 
-    //默认内置方法。
-    window.layer = {
-        v: '1.8.5',
-        ie6: ! -[1, ] && !window.XMLHttpRequest,
+//默认内置方法。
+    var layer = {
+        v: '2.4',
+        ie6: !!window.ActiveXObject&&!window.XMLHttpRequest,
         index: 0,
-        path: ready.getPath(),
-
-        alert: function (msg, icon, fn, yes) {
-            var isfn = (typeof fn === 'function'), conf = {
-                dialog: { msg: msg, type: icon, yes: isfn ? fn : yes },
-                area: ['auto', 'auto']
-            };
-            isfn || (conf.title = fn);
-            return $.layer(conf);
+        path: ready.getPath,
+        config: function(options, fn){
+            var item = 0;
+            options = options || {};
+            layer.cache = ready.config = $.extend(ready.config, options);
+            layer.path = ready.config.path || layer.path;
+            typeof options.extend === 'string' && (options.extend = [options.extend]);
+            layer.use('skin/layer.css', (options.extend && options.extend.length > 0) ? (function loop(){
+                var ext = options.extend;
+                layer.use(ext[ext[item] ? item : item-1], item < ext.length ? function(){
+                    ++item;
+                    return loop;
+                }() : fn);
+            }()) : fn);
+            return this;
         },
 
-        confirm: function (msg, yes, fn, no) {
-            var isfn = (typeof fn === 'function'), conf = {
-                dialog: { msg: msg, type: 4, btns: 2, yes: yes, no: isfn ? fn : no }
-            };
-            isfn || (conf.title = fn);
-            return $.layer(conf);
+        //载入配件
+        use: function(module, fn, readyMethod){
+            var i = 0, head = $('head')[0];
+            var module = module.replace(/\s/g, '');
+            var iscss = /\.css$/.test(module);
+            var node = document.createElement(iscss ? 'link' : 'script');
+            var id = 'layui_layer_' + module.replace(/\.|\//g, '');
+            if(!layer.path) return;
+            if(iscss){
+                node.rel = 'stylesheet';
+            }
+            node[iscss ? 'href' : 'src'] = /^http:\/\//.test(module) ? module : layer.path + module;
+            node.id = id;
+            if(!$('#'+ id)[0]){
+                head.appendChild(node);
+            }
+            //轮询加载就绪
+            ;(function poll() {
+                ;(iscss ? parseInt($('#'+id).css('width')) === 1989 : layer[readyMethod||id]) ? function(){
+                    fn && fn();
+                    try { iscss || head.removeChild(node); } catch(e){};
+                }() : setTimeout(poll, 100);
+            }());
+            return this;
         },
 
-        msg: function (msg, time, parme, end) {
-            var conf = {
+        ready: function(path, fn){
+            var type = typeof path === 'function';
+            if(type) fn = path;
+            layer.config($.extend(ready.config, function(){
+                return type ? {} : {path: path};
+            }()), fn);
+            return this;
+        },
+
+        //各种快捷引用
+        alert: function(content, options, yes){
+            var type = typeof options === 'function';
+            if(type) yes = options;
+            return layer.open($.extend({
+                content: content,
+                yes: yes
+            }, type ? {} : options));
+        },
+
+        confirm: function(content, options, yes, cancel){
+            var type = typeof options === 'function';
+            if(type){
+                cancel = yes;
+                yes = options;
+            }
+            return layer.open($.extend({
+                content: content,
+                btn: ready.btn,
+                yes: yes,
+                btn2: cancel
+            }, type ? {} : options));
+        },
+
+        msg: function(content, options, end){ //最常用提示层
+            var type = typeof options === 'function', rskin = ready.config.skin;
+            var skin = (rskin ? rskin + ' ' + rskin + '-msg' : '')||'layui-layer-msg';
+            var shift = doms.anim.length - 1;
+            if(type) end = options;
+            return layer.open($.extend({
+                content: content,
+                time: 3000,
+                shade: false,
+                skin: skin,
                 title: false,
                 closeBtn: false,
-                time: time === undefined ? 2 : time,
-                dialog: { msg: (msg === '' || msg === undefined) ? '&nbsp;' : msg },
+                btn: false,
                 end: end
-            };
-            if (typeof parme === 'object') {
-                conf.dialog.type = parme.type;
-                conf.shade = parme.shade;
-                conf.shift = parme.rate;
-            } else if (typeof parme === 'function') {
-                conf.end = parme
-            } else {
-                conf.dialog.type = parme;
-            }
-            return $.layer(conf);
+            }, (type && !ready.config.skin) ? {
+                skin: skin + ' layui-layer-hui',
+                shift: shift
+            } : function(){
+                options = options || {};
+                if(options.icon === -1 || options.icon === undefined && !ready.config.skin){
+                    options.skin = skin + ' ' + (options.skin||'layui-layer-hui');
+                }
+                return options;
+            }()));
         },
 
-        //加载层快捷引用
-        load: function (parme, icon) {
-            if (typeof parme === 'string') {
-                return layer.msg(parme, icon || 0, 16);
-            } else {
-                return $.layer({
-                    time: parme,
-                    loading: { type: icon },
-                    bgcolor: icon ? '#fff' : '',
-                    shade: icon ? [0.1, '#000'] : [0],
-                    border: (icon === 3 || !icon) ? [0] : [6, 0.3, '#000'],
-                    type: 3,
-                    title: ['', false],
-                    closeBtn: [0, false]
-                });
-            }
+        load: function(icon, options){
+            return layer.open($.extend({
+                type: 3,
+                icon: icon || 0,
+                shade: 0.01
+            }, options));
         },
 
-        //tips层快捷引用
-        tips: function (html, follow, parme, maxWidth, guide, style) {
-            var conf = {
-                type: 4, shade: false,
-                success: function (layero) {
-                    if (!this.closeBtn) {
-                        layero.find('.xubox_tips').css({ 'padding-right': 10 });
-                    }
-                },
-                bgcolor: '', tips: { msg: html, follow: follow }
-            };
-            conf.time = typeof parme === 'object' ? parme.time : (parme | 0);
-            parme = parme || {};
-            conf.closeBtn = parme.closeBtn || false
-            conf.maxWidth = parme.maxWidth || maxWidth;
-            conf.tips.guide = parme.guide || guide;
-            conf.tips.style = parme.style || style;
-            conf.tips.more = parme.more;
-            return $.layer(conf);
+        tips: function(content, follow, options){
+            return layer.open($.extend({
+                type: 4,
+                content: [content, follow],
+                closeBtn: false,
+                time: 3000,
+                shade: false,
+                fix: false,
+                maxWidth: 210
+            }, options));
         }
     };
 
-
-
-    //缓存常用字符
-    var doms = ['xubox_layer', 'xubox_iframe', '.xubox_title', '.xubox_text', '.xubox_page', '.xubox_main'];
-
-    var Class = function (setings) {
-        var that = this, config = that.config;
-        layer.index++;
-        that.index = layer.index;
-        that.config = $.extend({}, config, setings);
-        that.config.dialog = $.extend({}, config.dialog, setings.dialog);
-        that.config.page = $.extend({}, config.page, setings.page);
-        that.config.iframe = $.extend({}, config.iframe, setings.iframe);
-        that.config.loading = $.extend({}, config.loading, setings.loading);
-        that.config.tips = $.extend({}, config.tips, setings.tips);
+    var Class = function(setings){
+        var that = this;
+        that.index = ++layer.index;
+        that.config = $.extend({}, that.config, ready.config, setings);
         that.creat();
     };
 
     Class.pt = Class.prototype;
 
-    //默认配置
+//缓存常用字符
+    var doms = ['layui-layer', '.layui-layer-title', '.layui-layer-main', '.layui-layer-dialog', 'layui-layer-iframe', 'layui-layer-content', 'layui-layer-btn', 'layui-layer-close'];
+    doms.anim = ['layer-anim', 'layer-anim-01', 'layer-anim-02', 'layer-anim-03', 'layer-anim-04', 'layer-anim-05', 'layer-anim-06'];
+
+//默认配置
     Class.pt.config = {
         type: 0,
-        shade: [0.3, '#000'],
+        shade: 0.3,
         fix: true,
-        move: '.xubox_title',
-        title: '信息',
-        offset: ['', '50%'],
-        area: ['310px', 'auto'],
-        closeBtn: [0, true],
-        time: 0,
-        bgcolor: '#fff',
-        border: [6, 0.3, '#000'],
+        move: doms[1],
+        title: '&#x4FE1;&#x606F;',
+        offset: 'auto',
+        area: 'auto',
+        closeBtn: 1,
+        time: 0, //0表示不自动关闭
         zIndex: 19891014,
-        maxWidth: 400,
-        dialog: { btns: 1, btn: ['确定', '取消'], type: 8, msg: '', yes: function (index) { layer.close(index); }, no: function (index) { layer.close(index); } },
-        page: { dom: '#xulayer', html: '', url: '' },
-        iframe: { src: 'http://sentsin.com', scrolling: 'auto' },
-        loading: { type: 0 },
-        tips: { msg: '', follow: '', guide: 0, isGuide: true, style: ['background-color:#FF9900; color:#fff;', '#FF9900'] },
-        success: function (layer) { }, //创建成功后的回调
-        close: function (index) { layer.close(index); }, //右上角关闭回调
-        end: function () { } //终极销毁回调
+        maxWidth: 360,
+        shift: 0,
+        icon: -1,
+        scrollbar: true, //是否允许浏览器滚动条
+        tips: 2
     };
 
-
-    //容器
-    Class.pt.space = function (html) {
-        var that = this, html = html || '', times = that.index, config = that.config, dialog = config.dialog,
-    ico = dialog.type === -1 ? '' : '<span class="xubox_msg xulayer_png32 xubox_msgico xubox_msgtype' + dialog.type + '"></span>',
-    frame = [
-    '<div class="xubox_dialog">' + ico + '<span class="xubox_msg xubox_text" style="' + (ico ? '' : 'padding-left:20px') + '">' + dialog.msg + '</span></div>',
-    '<div class="xubox_page">' + html + '</div>',
-    '<iframe scrolling="' + config.iframe.scrolling + '" allowtransparency="true" id="' + doms[1] + '' + times + '" name="' + doms[1] + '' + times + '" onload="this.className=\'' + doms[1] + '\'" class="' + doms[1] + '" frameborder="0" src="' + config.iframe.src + '"></iframe>',
-    '<span class="xubox_loading xubox_loading_' + config.loading.type + '"></span>',
-    '<div class="xubox_tips" style="' + config.tips.style[0] + '"><div class="xubox_tipsMsg">' + config.tips.msg + '</div><i class="layerTipsG"></i></div>'
-    ],
-    shade = '', border = '', zIndex = config.zIndex + times,
-    shadeStyle = 'z-index:' + zIndex + '; background-color:' + config.shade[1] + '; opacity:' + config.shade[0] + '; filter:alpha(opacity=' + config.shade[0] * 100 + ');';
-        config.shade[0] && (shade = '<div times="' + times + '" id="xubox_shade' + times + '" class="xubox_shade" style="' + shadeStyle + '"></div>');
+//容器
+    Class.pt.vessel = function(conType, callback){
+        var that = this, times = that.index, config = that.config;
+        var zIndex = config.zIndex + times, titype = typeof config.title === 'object';
+        var ismax = config.maxmin && (config.type === 1 || config.type === 2);
+        var titleHTML = (config.title ? '<div class="layui-layer-title" style="'+ (titype ? config.title[1] : '') +'">'
+        + (titype ? config.title[0] : config.title)
+        + '</div>' : '');
 
         config.zIndex = zIndex;
-        var title = '', closebtn = '', borderStyle = "z-index:" + (zIndex - 1) + ";  background-color: " + config.border[2] + "; opacity:" + config.border[1] + "; filter:alpha(opacity=" + config.border[1] * 100 + "); top:-" + config.border[0] + "px; left:-" + config.border[0] + "px;";
-        config.border[0] && (border = '<div id="xubox_border' + times + '" class="xubox_border" style="' + borderStyle + '"></div>');
+        callback([
+            //遮罩
+            config.shade ? ('<div class="layui-layer-shade" id="layui-layer-shade'+ times +'" times="'+ times +'" style="'+ ('z-index:'+ (zIndex-1) +'; background-color:'+ (config.shade[1]||'#000') +'; opacity:'+ (config.shade[0]||config.shade) +'; filter:alpha(opacity='+ (config.shade[0]*100||config.shade*100) +');') +'"></div>') : '',
 
-        if (config.maxmin && (config.type === 1 || config.type === 2) && (!/^\d+%$/.test(config.area[0]) || !/^\d+%$/.test(config.area[1]))) {
-            closebtn = '<a class="xubox_min" href="javascript:;"><cite></cite></a><a class="xubox_max xulayer_png32" href="javascript:;"></a>';
-        }
-        config.closeBtn[1] && (closebtn += '<a class="xubox_close xulayer_png32 xubox_close' + config.closeBtn[0] + '" href="javascript:;" style="' + (config.type === 4 ? 'position:absolute; right:-3px; _right:7px; top:-4px;' : '') + '"></a>');
-        var titype = typeof config.title === 'object';
-        config.title && (title = '<div class="xubox_title" style="' + (titype ? config.title[1] : '') + '"><em>' + (titype ? config.title[0] : config.title) + '</em></div>');
-        return [shade,
-    '<div times="' + times + '" showtime="' + config.time + '" style="z-index:' + zIndex + '" id="' + doms[0] + '' + times
-    + '" class="' + doms[0] + '">'
-    + '<div style="background-color:' + config.bgcolor + '; z-index:' + zIndex + '" class="xubox_main">'
-    + frame[config.type]
-    + title
-    + '<span class="xubox_setwin">' + closebtn + '</span>'
-    + '<span class="xubox_botton"></span>'
-    + '</div>' + border + '</div>'
-        ];
+            //主体
+            '<div class="'+ doms[0] + (' layui-layer-'+ready.type[config.type]) + (((config.type == 0 || config.type == 2) && !config.shade) ? ' layui-layer-border' : '') + ' ' + (config.skin||'') +'" id="'+ doms[0] + times +'" type="'+ ready.type[config.type] +'" times="'+ times +'" showtime="'+ config.time +'" conType="'+ (conType ? 'object' : 'string') +'" style="z-index: '+ zIndex +'; width:'+ config.area[0] + ';height:' + config.area[1] + (config.fix ? '' : ';position:absolute;') +'">'
+            + (conType && config.type != 2 ? '' : titleHTML)
+            +'<div id="'+ (config.id||'') +'" class="layui-layer-content'+ ((config.type == 0 && config.icon !== -1) ? ' layui-layer-padding' :'') + (config.type == 3 ? ' layui-layer-loading'+config.icon : '') +'">'
+            + (config.type == 0 && config.icon !== -1 ? '<i class="layui-layer-ico layui-layer-ico'+ config.icon +'"></i>' : '')
+            + (config.type == 1 && conType ? '' : (config.content||''))
+            +'</div>'
+            + '<span class="layui-layer-setwin">'+ function(){
+                var closebtn = ismax ? '<a class="layui-layer-min" href="javascript:;"><cite></cite></a><a class="layui-layer-ico layui-layer-max" href="javascript:;"></a>' : '';
+                config.closeBtn && (closebtn += '<a class="layui-layer-ico '+ doms[7] +' '+ doms[7] + (config.title ? config.closeBtn : (config.type == 4 ? '1' : '2')) +'" href="javascript:;"></a>');
+                return closebtn;
+            }() + '</span>'
+            + (config.btn ? function(){
+                var button = '';
+                typeof config.btn === 'string' && (config.btn = [config.btn]);
+                for(var i = 0, len = config.btn.length; i < len; i++){
+                    button += '<a class="'+ doms[6] +''+ i +'">'+ config.btn[i] +'</a>'
+                }
+                return '<div class="'+ doms[6] +'">'+ button +'</div>'
+            }() : '')
+            +'</div>'
+        ], titleHTML);
+        return that;
     };
 
-    //创建骨架
-    Class.pt.creat = function () {
-        var that = this, space = '', config = that.config, dialog = config.dialog, times = that.index;
-        var page = config.page, body = $("body"), setSpace = function (html) {
-            var html = html || '';
-            space = that.space(html);
-            if (config.type == 1 && page.html === '' && page.url === '') {
-                $(page.dom).after($(space[0]));
-            } else {
-                body.append($(space[0]));
-            }
-        };
+//创建骨架
+    Class.pt.creat = function(){
+        var that = this, config = that.config, times = that.index, nodeIndex;
+        var content = config.content, conType = typeof content === 'object';
 
-        switch (config.type) {
+        if($('#'+config.id)[0])  return;
+
+        if(typeof config.area === 'string'){
+            config.area = config.area === 'auto' ? ['', ''] : [config.area, ''];
+        }
+
+        switch(config.type){
             case 0:
-                config.title || (config.area = ['auto', 'auto']);
-                $('.xubox_dialog')[0] && layer.close($('.xubox_dialog').parents('.' + doms[0]).attr('times'));
+                config.btn = ('btn' in config) ? config.btn : ready.btn[0];
+                layer.closeAll('dialog');
                 break;
-
-            case 1:
-                if (page.html !== '') {
-                    setSpace('<div class="xuboxPageHtml">' + page.html + '</div>');
-                    body.append($(space[1]));
-                } else if (page.url !== '') {
-                    setSpace('<div class="xuboxPageHtml" id="xuboxPageHtml' + times + '">' + page.html + '</div>');
-                    body.append($(space[1]));
-                    $.get(page.url, function (datas) {
-                        $('#xuboxPageHtml' + times).html(datas.toString());
-                        page.ok && page.ok(datas);
-                    });
-                } else {
-                    if ($(page.dom).parents(doms[4]).length == 0) {
-                        setSpace();
-                        $(page.dom).show().wrap($(space[1]));
-                    } else {
-                        return;
-                    }
-                }
+            case 2:
+                var content = config.content = conType ? config.content : [config.content||'http://layer.layui.com', 'auto'];
+                config.content = '<iframe scrolling="'+ (config.content[1]||'auto') +'" allowtransparency="true" id="'+ doms[4] +''+ times +'" name="'+ doms[4] +''+ times +'" onload="this.className=\'\';" class="layui-layer-load" frameborder="0" src="' + config.content[0] + '"></iframe>';
                 break;
-
             case 3:
                 config.title = false;
-                config.area = ['auto', 'auto'];
-                config.closeBtn = ['', false];
-                $('.xubox_loading')[0] && layer.closeLoad();
+                config.closeBtn = false;
+                config.icon === -1 && (config.icon === 0);
+                layer.closeAll('loading');
                 break;
-
             case 4:
+                conType || (config.content = [config.content, 'body']);
+                config.follow = config.content[1];
+                config.content = config.content[0] + '<i class="layui-layer-TipsG"></i>';
                 config.title = false;
-                config.area = ['auto', 'auto'];
-                config.fix = false;
-                config.border = [0];
-                config.tips.more || layer.closeTips();
+                config.tips = typeof config.tips === 'object' ? config.tips : [config.tips, true];
+                config.tipsMore || layer.closeAll('tips');
                 break;
-        };
-        if (config.type !== 1) {
-            setSpace();
-            body.append($(space[1]));
         }
 
-        var layerE = that.layerE = $('#' + doms[0] + times);
+        //建立容器
+        that.vessel(conType, function(html, titleHTML){
+            $('body').append(html[0]);
+            conType ? function(){
+                (config.type == 2 || config.type == 4) ? function(){
+                    $('body').append(html[1]);
+                }() : function(){
+                    if(!content.parents('.'+doms[0])[0]){
+                        content.show().addClass('layui-layer-wrap').wrap(html[1]);
+                        $('#'+ doms[0] + times).find('.'+doms[5]).before(titleHTML);
+                    }
+                }();
+            }() : $('body').append(html[1]);
+            that.layero = $('#'+ doms[0] + times);
+            config.scrollbar || doms.html.css('overflow', 'hidden').attr('layer-full', times);
+        }).auto(times);
 
-        layerE.css({ width: config.area[0], height: config.area[1] });
-        config.css && layerE.css(config.css);
-        config.fix || layerE.css({ position: 'absolute' });
-
-        //配置按钮
-        if (config.title && (config.type !== 3 || config.type !== 4)) {
-            var confbtn = config.type === 0 ? dialog : config, layerBtn = layerE.find('.xubox_botton');
-            confbtn.btn = config.btn || dialog.btn;
-            switch (confbtn.btns) {
-                case 0:
-                    layerBtn.html('').hide();
-                    break;
-                case 1:
-                    layerBtn.html('<a href="javascript:;" class="xubox_yes xubox_botton1">' + confbtn.btn[0] + '</a>');
-                    break;
-                case 2:
-                    layerBtn.html('<a href="javascript:;" class="xubox_yes xubox_botton2">' + confbtn.btn[0] + '</a>' + '<a href="javascript:;" class="xubox_no xubox_botton3">' + confbtn.btn[1] + '</a>');
-                    break;
-                case 3:
-                    layerBtn.html('<a href="javascript:;" class="xubox_yes xubox_botton4">' + confbtn.btn[0] + '</a>' + '<a href="javascript:;" class="xubox_no xubox_botton5">' + confbtn.btn[1] + '</a>' + '<a href="javascript:;" class="xubox_btn3 xubox_botton6">' + confbtn.btn[2] + '</a>');
-                    break;
-            }
-        }
-
-        if (layerE.css('left') === 'auto') {
-            layerE.hide();
-            setTimeout(function () {
-                layerE.show();
-                that.set(times);
-            }, 500);
-        } else {
-            that.set(times);
-        }
-        config.time <= 0 || that.autoclose();
-        that.callback();
-        that.autoIframeSize();
-    };
-
-    ready.fade = function (obj, time, opa) {
-        obj.css({ opacity: 0 }).animate({ opacity: opa }, time);
-    };
-
-    //自适应iframe页面大小
-    Class.pt.autoIframeSize = function(){
-         var times = this.index
-         var id = doms[1] + '' + times;
-         var layerId = doms[0] + '' + times;
-         var xubox_border = 'xubox_border' + '' + times;
-         $('#'+id).load(function(){
-            var $doc = $(window.frames[id].document);
-            var docH = $doc.find('body').height();
-            $(this).css('height',docH);
-            $("#"+layerId).css('height',docH);
-            $("#"+xubox_border).css('height',docH);
-         });
-    };
-
-    //计算坐标
-    Class.pt.offset = function () {
-        var that = this, config = that.config, layerE = that.layerE, laywid = layerE.outerHeight();
-        if (config.offset[0] === '' && laywid < win.height()) {
-            that.offsetTop = (win.height() - laywid - 2 * config.border[0]) / 2;
-        } else if (config.offset[0].indexOf("px") != -1) {
-            that.offsetTop = parseFloat(config.offset[0]);
-        } else {
-            that.offsetTop = parseFloat(config.offset[0] || 0) / 100 * win.height();
-        }
-        if(that.offsetTop<0){that.offsetTop=0;}
-        that.offsetTop = that.offsetTop + config.border[0] + (config.fix ? 0 : win.scrollTop());
-        if (config.offset[1].indexOf("px") != -1) {
-            that.offsetLeft = parseFloat(config.offset[1]) + config.border[0];
-        } else {
-            config.offset[1] = config.offset[1] === '' ? '50%' : config.offset[1];
-            if (config.offset[1] === '50%') {
-                that.offsetLeft = config.offset[1];
-            } else {
-                that.offsetLeft = parseFloat(config.offset[1]) / 100 * win.width() + config.border[0];
-            }
-        };
-    };
-
-    //初始化骨架
-    Class.pt.set = function (times) {
-        var that = this;
-        var config = that.config;
-        var dialog = config.dialog;
-        var page = config.page;
-        var loading = config.loading;
-        var layerE = that.layerE;
-        var layerTitle = layerE.find(doms[2]);
-
-        that.autoArea(times);
-
-        if (config.title) {
-            if (config.type === 0) {
-                layer.ie6 && layerTitle.css({ width: layerE.outerWidth() });
-            }
-        } else {
-            config.type !== 4 && layerE.find('.xubox_close').addClass('xubox_close1');
-        };
-
-        layerE.attr({ 'type': ready.type[config.type] });
-        that.offset();
-
-        //判断是否动画弹出
-        if (config.type !== 4) {
-            if (config.shift && !layer.ie6) {
-                if (typeof config.shift === 'object') {
-                    that.shift(config.shift[0], config.shift[1] || 500, config.shift[2]);
-                } else {
-                    that.shift(config.shift, 500);
-                }
-            } else {
-                layerE.css({ top: that.offsetTop, left: that.offsetLeft });
-            }
-        }
-
-        switch (config.type) {
-            case 0:
-                layerE.find(doms[5]).css({ 'background-color': '#fff' });
-                if (config.title) {
-                    layerE.find(doms[3]).css({ paddingTop: 18 + layerTitle.outerHeight() });
-                } else {
-                    layerE.find('.xubox_msgico').css({ top: 8 });
-                    layerE.find(doms[3]).css({ marginTop: 11 });
-                }
-                break;
-
-            case 1:
-                layerE.find(page.dom).addClass('layer_pageContent');
-                config.shade[0] && layerE.css({ zIndex: config.zIndex + 1 });
-                config.title && layerE.find(doms[4]).css({ top: layerTitle.outerHeight() });
-                break;
-
-            case 2:
-                var iframe = layerE.find('.' + doms[1]), heg = layerE.height();
-                iframe.addClass('xubox_load').css({ width: layerE.width() });
-                config.title ? iframe.css({ top: layerTitle.height(), height: heg - layerTitle.height() }) : iframe.css({ top: 0, height: heg });
-                layer.ie6 && iframe.attr('src', config.iframe.src);
-                break;
-
-            case 4:
-                var layArea = [0, layerE.outerHeight()], fow = $(config.tips.follow), fowo = {
-                    width: fow.outerWidth(),
-                    height: fow.outerHeight(),
-                    top: fow.offset().top,
-                    left: fow.offset().left
-                }, tipsG = layerE.find('.layerTipsG');
-
-                config.tips.isGuide || tipsG.remove();
-                layerE.outerWidth() > config.maxWidth && layerE.width(config.maxWidth);
-
-                fowo.tipColor = config.tips.style[1];
-                layArea[0] = layerE.outerWidth();
-
-                fowo.autoLeft = function () {
-                    if (fowo.left + layArea[0] - win.width() > 0) {
-                        fowo.tipLeft = fowo.left + fowo.width - layArea[0];
-                        tipsG.css({ right: 12, left: 'auto' });
-                    } else {
-                        fowo.tipLeft = fowo.left;
-                    };
-                };
-
-                //辨别tips的方位
-                fowo.where = [function () { //上
-                    fowo.autoLeft();
-                    fowo.tipTop = fowo.top - layArea[1] - 10;
-                    tipsG.removeClass('layerTipsB').addClass('layerTipsT').css({ 'border-right-color': fowo.tipColor });
-                }, function () { //右
-                    fowo.tipLeft = fowo.left + fowo.width + 10;
-                    fowo.tipTop = fowo.top;
-                    tipsG.removeClass('layerTipsL').addClass('layerTipsR').css({ 'border-bottom-color': fowo.tipColor });
-                }, function () { //下
-                    fowo.autoLeft();
-                    fowo.tipTop = fowo.top + fowo.height + 10;
-                    tipsG.removeClass('layerTipsT').addClass('layerTipsB').css({ 'border-right-color': fowo.tipColor });
-                }, function () { //左
-                    fowo.tipLeft = fowo.left - layArea[0] + 10;
-                    fowo.tipTop = fowo.top;
-                    tipsG.removeClass('layerTipsR').addClass('layerTipsL').css({ 'border-bottom-color': fowo.tipColor });
-                }];
-                fowo.where[config.tips.guide]();
-
-                /* 8*2为小三角形占据的空间 */
-                if (config.tips.guide === 0) {
-                    fowo.top - (win.scrollTop() + layArea[1] + 8 * 2) < 0 && fowo.where[2]();
-                } else if (config.tips.guide === 1) {
-                    win.width() - (fowo.left + fowo.width + layArea[0] + 8 * 2) > 0 || fowo.where[3]()
-                } else if (config.tips.guide === 2) {
-                    (fowo.top - win.scrollTop() + fowo.height + layArea[1] + 8 * 2) - win.height() > 0 && fowo.where[0]();
-                } else if (config.tips.guide === 3) {
-                    layArea[0] + 8 * 2 - fowo.left > 0 && fowo.where[1]()
-                } else if (config.tips.guide === 4) {
-
-                }
-                layerE.css({ left: fowo.tipLeft, top: fowo.tipTop });
-                break;
-        };
-
-        if (config.fadeIn) {
-            ready.fade(layerE, config.fadeIn, 1);
-            ready.fade($('#xubox_shade' + times), config.fadeIn, config.shade[0]);
-        }
+        config.type == 2 && layer.ie6 && that.layero.find('iframe').attr('src', content[0]);
+        $(document).off('keydown', ready.enter).on('keydown', ready.enter);
+        that.layero.on('keydown', function(e){
+            $(document).off('keydown', ready.enter);
+        });
 
         //坐标自适应浏览器窗口尺寸
-        if (config.fix && config.offset[0] === '' && !config.shift) {
-            win.on('resize', function () {
-                layerE.css({ top: (win.height() - layerE.outerHeight()) / 2 });
+        config.type == 4 ? that.tips() : that.offset();
+        if(config.fix){
+            win.on('resize', function(){
+                that.offset();
+                (/^\d+%$/.test(config.area[0]) || /^\d+%$/.test(config.area[1])) && that.auto(times);
+                config.type == 4 && that.tips();
             });
         }
 
-        that.move();
-    };
+        config.time <= 0 || setTimeout(function(){
+            layer.close(that.index)
+        }, config.time);
+        that.move().callback();
 
-    //动画进入
-    Class.pt.shift = function (type, rate, stop) {
-        var that = this, config = that.config;
-        var layerE = that.layerE;
-        var cutWth = 0, ww = win.width();
-        var wh = win.height() + (config.fix ? 0 : win.scrollTop());
-
-        if (config.offset[1] == '50%' || config.offset[1] == '') {
-            cutWth = layerE.outerWidth() / 2;
-        } else {
-            cutWth = layerE.outerWidth();
-        }
-
-        var anim = {
-            t: { top: that.offsetTop },
-            b: { top: wh - layerE.outerHeight() - config.border[0] },
-            cl: cutWth + config.border[0],
-            ct: -layerE.outerHeight(),
-            cr: ww - cutWth - config.border[0]
+        //为兼容jQuery3.0的css动画影响元素尺寸计算
+        if(doms.anim[config.shift]){
+            that.layero.addClass(doms.anim[config.shift]);
         };
 
-        switch (type) {
-            case 'left-top':
-                layerE.css({ left: anim.cl, top: anim.ct }).animate(anim.t, rate);
-                break;
-            case 'top':
-                layerE.css({ top: anim.ct }).animate(anim.t, rate);
-                break;
-            case 'right-top':
-                layerE.css({ left: anim.cr, top: anim.ct }).animate(anim.t, rate);
-                break;
-            case 'right-bottom':
-                layerE.css({ left: anim.cr, top: wh }).animate(stop ? anim.t : anim.b, rate);
-                break;
-            case 'bottom':
-                layerE.css({ top: wh }).animate(stop ? anim.t : anim.b, rate);
-                break;
-            case 'left-bottom':
-                layerE.css({ left: anim.cl, top: wh }).animate(stop ? anim.t : anim.b, rate);
-                break;
-            case 'left':
-                layerE.css({ left: -layerE.outerWidth() }).animate({ left: that.offsetLeft }, rate);
-                break;
-        }
     };
 
-    //自适应宽高
-    Class.pt.autoArea = function (times) {
-        var that = this, times = times || that.index, config = that.config, page = config.page;
-        var layerE = $('#' + doms[0] + times), layerTitle = layerE.find(doms[2]), layerMian = layerE.find(doms[5]);
-        var titHeight = config.title ? layerTitle.innerHeight() : 0, outHeight, btnHeight = 0;
-        if (config.area[0] === 'auto' && layerMian.outerWidth() >= config.maxWidth) {
-            layerE.css({ width: config.maxWidth });
+//自适应
+    Class.pt.auto = function(index){
+        var that = this, config = that.config, layero = $('#'+ doms[0] + index);
+        if(config.area[0] === '' && config.maxWidth > 0){
+            //为了修复IE7下一个让人难以理解的bug
+            if(/MSIE 7/.test(navigator.userAgent) && config.btn){
+                layero.width(layero.innerWidth());
+            }
+            layero.outerWidth() > config.maxWidth && layero.width(config.maxWidth);
         }
-        switch (config.type) {
-            case 0:
-                var aBtn = layerE.find('.xubox_botton>a');
-                outHeight = layerE.find(doms[3]).outerHeight() + 20;
-                if (aBtn.length > 0) {
-                    btnHeight = aBtn.outerHeight() + 20;
-                }
-                break;
-            case 1:
-                var layerPage = layerE.find(doms[4]);
-                outHeight = $(page.dom).outerHeight();
-                config.area[0] === 'auto' && layerE.css({ width: layerPage.outerWidth() });
-                if (page.html !== '' || page.url !== '') {
-                    outHeight = layerPage.outerHeight();
-                }
-                break;
+        var area = [layero.innerWidth(), layero.innerHeight()];
+        var titHeight = layero.find(doms[1]).outerHeight() || 0;
+        var btnHeight = layero.find('.'+doms[6]).outerHeight() || 0;
+        function setHeight(elem){
+            elem = layero.find(elem);
+            elem.height(area[1] - titHeight - btnHeight - 2*(parseFloat(elem.css('padding'))|0));
+        }
+        switch(config.type){
             case 2:
-                layerE.find('iframe').css({ width: layerE.outerWidth(), height: layerE.outerHeight() - (config.title ? layerTitle.innerHeight() : 0) });
+                setHeight('iframe');
                 break;
-            case 3:
-                var load = layerE.find(".xubox_loading");
-                outHeight = load.outerHeight();
-                layerMian.css({ width: load.width() });
+            default:
+                if(config.area[1] === ''){
+                    if(config.fix && area[1] >= win.height()){
+                        area[1] = win.height();
+                        setHeight('.'+doms[5]);
+                    }
+                } else {
+                    setHeight('.'+doms[5]);
+                }
                 break;
-        };
-        (config.area[1] === 'auto') && layerMian.css({ height: titHeight + outHeight + btnHeight });
-        $('#xubox_border' + times).css({ width: layerE.outerWidth() + 2 * config.border[0], height: layerE.outerHeight() + 2 * config.border[0] });
-        (layer.ie6 && config.area[0] !== 'auto') && layerMian.css({ width: layerE.outerWidth() });
-        (config.offset[1] === '50%' || config.offset[1] == '') && (config.type !== 4) ? layerE.css({ marginLeft: -layerE.outerWidth() / 2 }) : layerE.css({ marginLeft: 0 });
+        }
+        return that;
     };
 
-    //拖拽层
-    Class.pt.move = function () {
+//计算坐标
+    Class.pt.offset = function(){
+        var that = this, config = that.config, layero = that.layero;
+        var area = [layero.outerWidth(), layero.outerHeight()];
+        var type = typeof config.offset === 'object';
+        that.offsetTop = (win.height() - area[1])/2;
+        that.offsetLeft = (win.width() - area[0])/2;
+        if(type){
+            that.offsetTop = config.offset[0];
+            that.offsetLeft = config.offset[1]||that.offsetLeft;
+        } else if(config.offset !== 'auto'){
+            that.offsetTop = config.offset;
+            if(config.offset === 'rb'){ //右下角
+                that.offsetTop = win.height() - area[1];
+                that.offsetLeft = win.width() - area[0];
+            }
+        }
+        if(!config.fix){
+            that.offsetTop = /%$/.test(that.offsetTop) ?
+            win.height()*parseFloat(that.offsetTop)/100
+                : parseFloat(that.offsetTop);
+            that.offsetLeft = /%$/.test(that.offsetLeft) ?
+            win.width()*parseFloat(that.offsetLeft)/100
+                : parseFloat(that.offsetLeft);
+            that.offsetTop += win.scrollTop();
+            that.offsetLeft += win.scrollLeft();
+        }
+        layero.css({top: that.offsetTop, left: that.offsetLeft});
+    };
+
+//Tips
+    Class.pt.tips = function(){
+        var that = this, config = that.config, layero = that.layero;
+        var layArea = [layero.outerWidth(), layero.outerHeight()], follow = $(config.follow);
+        if(!follow[0]) follow = $('body');
+        var goal = {
+            width: follow.outerWidth(),
+            height: follow.outerHeight(),
+            top: follow.offset().top,
+            left: follow.offset().left
+        }, tipsG = layero.find('.layui-layer-TipsG');
+
+        var guide = config.tips[0];
+        config.tips[1] || tipsG.remove();
+
+        goal.autoLeft = function(){
+            if(goal.left + layArea[0] - win.width() > 0){
+                goal.tipLeft = goal.left + goal.width - layArea[0];
+                tipsG.css({right: 12, left: 'auto'});
+            } else {
+                goal.tipLeft = goal.left;
+            };
+        };
+
+        //辨别tips的方位
+        goal.where = [function(){ //上
+            goal.autoLeft();
+            goal.tipTop = goal.top - layArea[1] - 10;
+            tipsG.removeClass('layui-layer-TipsB').addClass('layui-layer-TipsT').css('border-right-color', config.tips[1]);
+        }, function(){ //右
+            goal.tipLeft = goal.left + goal.width + 10;
+            goal.tipTop = goal.top;
+            tipsG.removeClass('layui-layer-TipsL').addClass('layui-layer-TipsR').css('border-bottom-color', config.tips[1]);
+        }, function(){ //下
+            goal.autoLeft();
+            goal.tipTop = goal.top + goal.height + 10;
+            tipsG.removeClass('layui-layer-TipsT').addClass('layui-layer-TipsB').css('border-right-color', config.tips[1]);
+        }, function(){ //左
+            goal.tipLeft = goal.left - layArea[0] - 10;
+            goal.tipTop = goal.top;
+            tipsG.removeClass('layui-layer-TipsR').addClass('layui-layer-TipsL').css('border-bottom-color', config.tips[1]);
+        }];
+        goal.where[guide-1]();
+
+        /* 8*2为小三角形占据的空间 */
+        if(guide === 1){
+            goal.top - (win.scrollTop() + layArea[1] + 8*2) < 0 && goal.where[2]();
+        } else if(guide === 2){
+            win.width() - (goal.left + goal.width + layArea[0] + 8*2) > 0 || goal.where[3]()
+        } else if(guide === 3){
+            (goal.top - win.scrollTop() + goal.height + layArea[1] + 8*2) - win.height() > 0 && goal.where[0]();
+        } else if(guide === 4){
+            layArea[0] + 8*2 - goal.left > 0 && goal.where[1]()
+        }
+
+        layero.find('.'+doms[5]).css({
+            'background-color': config.tips[1],
+            'padding-right': (config.closeBtn ? '30px' : '')
+        });
+        layero.css({
+            left: goal.tipLeft - (config.fix ? win.scrollLeft() : 0),
+            top: goal.tipTop  - (config.fix ? win.scrollTop() : 0)
+        });
+    }
+
+//拖拽层
+    Class.pt.move = function(){
         var that = this, config = that.config, conf = {
             setY: 0,
-            moveLayer: function () {
-                if (parseInt(conf.layerE.css('margin-left')) == 0) {
-                    var lefts = parseInt(conf.move.css('left'));
-                } else {
-                    var lefts = parseInt(conf.move.css('left')) + (-parseInt(conf.layerE.css('margin-left')))
+            moveLayer: function(){
+                var layero = conf.layero, mgleft = parseInt(layero.css('margin-left'));
+                var lefts = parseInt(conf.move.css('left'));
+                mgleft === 0 || (lefts = lefts - mgleft);
+                if(layero.css('position') !== 'fixed'){
+                    lefts = lefts - layero.parent().offset().left;
+                    conf.setY = 0;
                 }
-                if (conf.layerE.css('position') !== 'fixed') {
-                    lefts = lefts - conf.layerE.parent().offset().left;
-                    conf.setY = 0
-                }
-                conf.layerE.css({ left: lefts, top: parseInt(conf.move.css('top')) - conf.setY });
+                layero.css({left: lefts, top: parseInt(conf.move.css('top')) - conf.setY});
             }
         };
 
-        var movedom = that.layerE.find(config.move);
+        var movedom = that.layero.find(config.move);
         config.move && movedom.attr('move', 'ok');
-        config.move ? movedom.css({ cursor: 'move' }) : movedom.css({ cursor: 'auto' });
+        movedom.css({cursor: config.move ? 'move' : 'auto'});
 
-        $(config.move).on('mousedown', function (M) {
+        $(config.move).on('mousedown', function(M){
             M.preventDefault();
-            if ($(this).attr('move') === 'ok') {
+            if($(this).attr('move') === 'ok'){
                 conf.ismove = true;
-                conf.layerE = $(this).parents('.' + doms[0]);
-                var xx = conf.layerE.offset().left, yy = conf.layerE.offset().top, ww = conf.layerE.width() - 6, hh = conf.layerE.height() - 6;
-                if (!$('#xubox_moves')[0]) {
-                    $('body').append('<div id="xubox_moves" class="xubox_moves" style="left:' + xx + 'px; top:' + yy + 'px; width:' + ww + 'px; height:' + hh + 'px; z-index:2147483584"></div>');
+                conf.layero = $(this).parents('.'+ doms[0]);
+                var xx = conf.layero.offset().left, yy = conf.layero.offset().top, ww = conf.layero.outerWidth() - 6, hh = conf.layero.outerHeight() - 6;
+                if(!$('#layui-layer-moves')[0]){
+                    $('body').append('<div id="layui-layer-moves" class="layui-layer-moves" style="left:'+ xx +'px; top:'+ yy +'px; width:'+ ww +'px; height:'+ hh +'px; z-index:2147483584"></div>');
                 }
-                conf.move = $('#xubox_moves');
-                config.moveType && conf.move.css({ opacity: 0 });
+                conf.move = $('#layui-layer-moves');
+                config.moveType && conf.move.css({visibility: 'hidden'});
 
                 conf.moveX = M.pageX - conf.move.position().left;
                 conf.moveY = M.pageY - conf.move.position().top;
-                conf.layerE.css('position') !== 'fixed' || (conf.setY = win.scrollTop());
+                conf.layero.css('position') !== 'fixed' || (conf.setY = win.scrollTop());
             }
         });
 
-        $(document).mousemove(function (M) {
-            if (conf.ismove) {
+        $(document).mousemove(function(M){
+            if(conf.ismove){
                 var offsetX = M.pageX - conf.moveX, offsetY = M.pageY - conf.moveY;
                 M.preventDefault();
 
                 //控制元素不被拖出窗口外
-                if (!config.moveOut) {
+                if(!config.moveOut){
                     conf.setY = win.scrollTop();
-                    var setRig = win.width() - conf.move.outerWidth() - config.border[0], setTop = config.border[0] + conf.setY;
-                    offsetX < config.border[0] && (offsetX = config.border[0]);
+                    var setRig = win.width() - conf.move.outerWidth(), setTop = conf.setY;
+                    offsetX < 0 && (offsetX = 0);
                     offsetX > setRig && (offsetX = setRig);
                     offsetY < setTop && (offsetY = setTop);
-                    offsetY > win.height() - conf.move.outerHeight() - config.border[0] + conf.setY && (offsetY = win.height() - conf.move.outerHeight() - config.border[0] + conf.setY);
+                    offsetY > win.height() - conf.move.outerHeight() + conf.setY && (offsetY = win.height() - conf.move.outerHeight() + conf.setY);
                 }
 
-                conf.move.css({ left: offsetX, top: offsetY });
+                conf.move.css({left: offsetX, top: offsetY});
                 config.moveType && conf.moveLayer();
 
-                offsetX = null;
-                offsetY = null;
-                setRig = null;
-                setTop = null
+                offsetX = offsetY = setRig = setTop = null;
             }
-        }).mouseup(function () {
-            try {
-                if (conf.ismove) {
+        }).mouseup(function(){
+            try{
+                if(conf.ismove){
                     conf.moveLayer();
                     conf.move.remove();
+                    config.moveEnd && config.moveEnd();
                 }
                 conf.ismove = false;
-            } catch (e) {
+            }catch(e){
                 conf.ismove = false;
             }
-            config.moveEnd && config.moveEnd();
         });
+        return that;
     };
 
-    //自动关闭layer
-    Class.pt.autoclose = function () {
-        var that = this, time = that.config.time, maxLoad = function () {
-            time--;
-            if (time === 0) {
-                layer.close(that.index);
-                clearInterval(that.autotime);
-            }
-        };
-        that.autotime = setInterval(maxLoad, 1000);
-    };
-
-    ready.config = {
-        end: {}
-    };
-
-    Class.pt.callback = function () {
-        var that = this, layerE = that.layerE, config = that.config, dialog = config.dialog;
+    Class.pt.callback = function(){
+        var that = this, layero = that.layero, config = that.config;
         that.openLayer();
-        that.config.success(layerE,that.index);
-        layer.ie6 && that.IE6(layerE);
+        if(config.success){
+            if(config.type == 2){
+                layero.find('iframe').on('load', function(){
+                    config.success(layero, that.index);
+                });
+            } else {
+                config.success(layero, that.index);
+            }
+        }
+        layer.ie6 && that.IE6(layero);
 
-        layerE.find('.xubox_close').on('click', function () {
-            config.close(that.index);
-            layer.close(that.index);
+        //按钮
+        layero.find('.'+ doms[6]).children('a').on('click', function(){
+            var index = $(this).index();
+            if(index === 0){
+                if(config.yes){
+                    config.yes(that.index, layero)
+                } else if(config['btn1']){
+                    config['btn1'](that.index, layero)
+                } else {
+                    layer.close(that.index);
+                }
+            } else {
+                var close = config['btn'+(index+1)] && config['btn'+(index+1)](that.index, layero);
+                close === false || layer.close(that.index);
+            }
         });
-        if (dialog.btns == 3) {
-            layerE.find('.xubox_yes,.xubox_no,.xubox_btn3').click(function () {
-                dialog.btnCallBack(that.index, this);
-            });
-        } else {
-            layerE.find('.xubox_yes').on('click', function () {
-                config.yes ? config.yes(that.index) : dialog.yes(that.index);
-            });
 
-            layerE.find('.xubox_no').on('click', function () {
-                config.no ? config.no(that.index) : dialog.no(that.index);
-                layer.close(that.index);
-            });
+        //取消
+        function cancel(){
+            var close = config.cancel && config.cancel(that.index, layero);
+            close === false || layer.close(that.index);
         }
 
-        //手动添加功能 鼠标处于灰色区域时，弹出提示框 依赖于 poshytip插件
-        var clickCloseTip = {
-                  content: '点击灰色区域，关闭弹出框',
-                  alignTo:'cursor',
-                  slide: false,
-                  followCursor:true,
-                  showOn:'hover',
-                  zIndex:layer.zIndex,
-                  className: 'tip-violet',
-                  fade:false,
-                  showTimeout:0,
-                  hideTimeout:0,
-                  hide_timeOut:true
+        //右上角关闭回调
+        layero.find('.'+ doms[7]).on('click', cancel);
 
-                };
-
-        if (that.config.shadeClose) {
-            $('#xubox_shade' + that.index).on('click', function () {
-                $('#xubox_shade' + that.index).poshytip('destroy');
+        //点遮罩关闭
+        if(config.shadeClose){
+            $('#layui-layer-shade'+ that.index).on('click', function(){
                 layer.close(that.index);
             });
-
-            //灰色区域点击关闭 提示
-            $('#xubox_shade' + that.index).poshytip(clickCloseTip);
         }
 
         //最小化
-        layerE.find('.xubox_min').on('click', function () {
-            layer.min(that.index, config);
-            config.min && config.min(layerE);
+        layero.find('.layui-layer-min').on('click', function(){
+            var min = config.min && config.min(layero);
+            min === false || layer.min(that.index, config);
         });
 
         //全屏/还原
-        layerE.find('.xubox_max').on('click', function () {
-            if ($(this).hasClass('xubox_maxmin')) {
+        layero.find('.layui-layer-max').on('click', function(){
+            if($(this).hasClass('layui-layer-maxmin')){
                 layer.restore(that.index);
-                config.restore && config.restore(layerE);
+                config.restore && config.restore(layero);
             } else {
                 layer.full(that.index, config);
-                config.full && config.full(layerE);
+                setTimeout(function(){
+                    config.full && config.full(layero);
+                }, 100);
             }
         });
 
-        ready.config.end[that.index] = config.end;
-
-
+        config.end && (ready.end[that.index] = config.end);
     };
 
-    //恢复select
-    ready.reselect = function () {
-        $.each($('select'), function (index, value) {
+//for ie6 恢复select
+    ready.reselect = function(){
+        $.each($('select'), function(index , value){
             var sthis = $(this);
-            if (!sthis.parents('.' + doms[0])[0]) {
-                (sthis.attr('layer') == 1 && $('.' + doms[0]).length < 1) && sthis.removeAttr('layer').show();
+            if(!sthis.parents('.'+doms[0])[0]){
+                (sthis.attr('layer') == 1 && $('.'+doms[0]).length < 1) && sthis.removeAttr('layer').show();
             }
             sthis = null;
         });
     };
 
-    Class.pt.IE6 = function (layerE) {
-        var that = this;
-        var _ieTop = layerE.offset().top;
+    Class.pt.IE6 = function(layero){
+        var that = this, _ieTop = layero.offset().top;
+
         //ie6的固定与相对定位
-        if (that.config.fix) {
-            var ie6Fix = function () {
-                layerE.css({ top: win.scrollTop() + _ieTop });
-            };
-        } else {
-            var ie6Fix = function () {
-                layerE.css({ top: _ieTop });
-            };
-        }
+        function ie6Fix(){
+            layero.css({top : _ieTop + (that.config.fix ? win.scrollTop() : 0)});
+        };
         ie6Fix();
         win.scroll(ie6Fix);
 
         //隐藏select
-        $.each($('select'), function (index, value) {
+        $('select').each(function(index , value){
             var sthis = $(this);
-            if (!sthis.parents('.' + doms[0])[0]) {
-                sthis.css('display') == 'none' || sthis.attr({ 'layer': '1' }).hide();
+            if(!sthis.parents('.'+doms[0])[0]){
+                sthis.css('display') === 'none' || sthis.attr({'layer' : '1'}).hide();
             }
             sthis = null;
         });
     };
 
-    //给layer对象拓展方法
-    Class.pt.openLayer = function () {
-        var that = this, layerE = that.layerE;
-
-        //自适应宽高
-        layer.autoArea = function (index) {
-            return that.autoArea(index);
-        };
-
-        //兼容旧版出场动画
-        layer.shift = function (type, rate, stop) {
-            that.shift(type, rate, stop);
-        };
-
-        //初始化拖拽元素
-        layer.setMove = function () {
-            return that.move();
-        };
+//需依赖原型的对外方法
+    Class.pt.openLayer = function(){
+        var that = this;
 
         //置顶当前窗口
         layer.zIndex = that.config.zIndex;
-        layer.setTop = function (layerNow) {
-            var setZindex = function () {
+        layer.setTop = function(layero){
+            var setZindex = function(){
                 layer.zIndex++;
-                layerNow.css('z-index', layer.zIndex + 1);
+                layero.css('z-index', layer.zIndex + 1);
             };
-            layer.zIndex = parseInt(layerNow[0].style.zIndex);
-            layerNow.on('mousedown', setZindex);
+            layer.zIndex = parseInt(layero[0].style.zIndex);
+            layero.on('mousedown', setZindex);
             return layer.zIndex;
         };
-
     };
 
-    ready.isauto = function (layero, options, offset) {
-        options.area[0] === 'auto' && (options.area[0] = layero.outerWidth());
-        options.area[1] === 'auto' && (options.area[1] = layero.outerHeight());
-        layero.attr({ area: options.area + ',' + offset });
-        layero.find('.xubox_max').addClass('xubox_maxmin');
+    ready.record = function(layero){
+        var area = [
+            layero.width(),
+            layero.height(),
+            layero.position().top,
+            layero.position().left + parseFloat(layero.css('margin-left'))
+        ];
+        layero.find('.layui-layer-max').addClass('layui-layer-maxmin');
+        layero.attr({area: area});
     };
 
-    ready.rescollbar = function (index) {
-        if (doms.html.attr('layer-full') == index) {
-            if (doms.html[0].style.removeProperty) {
+    ready.rescollbar = function(index){
+        if(doms.html.attr('layer-full') == index){
+            if(doms.html[0].style.removeProperty){
                 doms.html[0].style.removeProperty('overflow');
             } else {
                 doms.html[0].style.removeAttribute('overflow');
@@ -806,196 +650,430 @@ $, win, ready = {
         }
     };
 
+    /** 内置成员 */
 
-    /**
-    * 集成属性/方法
-    **/
+    window.layer = layer;
 
-
-    //获取page层所在索引
-    layer.getIndex = function (selector) {
-        return $(selector).parents('.' + doms[0]).attr('times');
+//获取子iframe的DOM
+    layer.getChildFrame = function(selector, index){
+        index = index || $('.'+doms[4]).attr('times');
+        return $('#'+ doms[0] + index).find('iframe').contents().find(selector);
     };
 
-    //获取子iframe的DOM
-    layer.getChildFrame = function (selector, index) {
-        index = index || $('.' + doms[1]).parents('.' + doms[0]).attr('times');
-        return $('#' + doms[0] + index).find('.' + doms[1]).contents().find(selector);
+//得到当前iframe层的索引，子iframe时使用
+    layer.getFrameIndex = function(name){
+        return $('#'+ name).parents('.'+doms[4]).attr('times');
     };
 
-    //得到当前iframe层的索引，子iframe时使用
-    layer.getFrameIndex = function (name) {
-        return $(name ? '#' + name : '.' + doms[1]).parents('.' + doms[0]).attr('times');
+//iframe层自适应宽高
+    layer.iframeAuto = function(index){
+        if(!index) return;
+        var heg = layer.getChildFrame('html', index).outerHeight();
+        var layero = $('#'+ doms[0] + index);
+        var titHeight = layero.find(doms[1]).outerHeight() || 0;
+        var btnHeight = layero.find('.'+doms[6]).outerHeight() || 0;
+        layero.css({height: heg + titHeight + btnHeight});
+        layero.find('iframe').css({height: heg});
     };
 
-    //iframe层自适应宽高
-    layer.iframeAuto = function (index) {
-        index = index || $('.' + doms[1]).parents('.' + doms[0]).attr('times');
-        var heg = layer.getChildFrame('body', index).outerHeight(),
-    layero = $('#' + doms[0] + index), tit = layero.find(doms[2]), titHt = 0;
-        tit && (titHt = tit.height());
-        layero.css({ height: heg + titHt });
-        var bs = -parseInt($('#xubox_border' + index).css('top'));
-        $('#xubox_border' + index).css({ height: heg + 2 * bs + titHt });
-        $('#' + doms[1] + index).css({ height: heg });
+//重置iframe url
+    layer.iframeSrc = function(index, url){
+        $('#'+ doms[0] + index).find('iframe').attr('src', url);
     };
 
-    //重置iframe url
-    layer.iframeSrc = function (index, url) {
-        $('#' + doms[0] + index).find('iframe').attr('src', url);
-    };
-
-    //重置层
-    layer.area = function (index, options) {
-        var layero = [$('#' + doms[0] + index), $('#xubox_border' + index)],
-    type = layero[0].attr('type'), main = layero[0].find(doms[5]),
-    title = layero[0].find(doms[2]);
-
-        if (type === ready.type[1] || type === ready.type[2]) {
-            layero[0].css(options);
-            main.css({ width: options.width, height: options.height });
-            if (type === ready.type[2]) {
-                var iframe = layero[0].find('iframe');
-                iframe.css({ width: options.width, height: title ? options.height - title.innerHeight() : options.height });
-            }
-            if (layero[0].css('margin-left') !== '0px') {
-                options.hasOwnProperty('top') && layero[0].css({ top: options.top - (layero[1][0] ? parseFloat(layero[1].css('top')) : 0) });
-                options.hasOwnProperty('left') && layero[0].css({ left: options.left + layero[0].outerWidth() / 2 - (layero[1][0] ? parseFloat(layero[1].css('left')) : 0) });
-                layero[0].css({ marginLeft: -layero[0].outerWidth() / 2 });
-            }
-            if (layero[1][0]) {
-                layero[1].css({
-                    width: parseFloat(options.width) - 2 * parseFloat(layero[1].css('left')),
-                    height: parseFloat(options.height) - 2 * parseFloat(layero[1].css('top'))
+//设定层的样式
+    layer.style = function(index, options){
+        var layero = $('#'+ doms[0] + index), type = layero.attr('type');
+        var titHeight = layero.find(doms[1]).outerHeight() || 0;
+        var btnHeight = layero.find('.'+doms[6]).outerHeight() || 0;
+        if(type === ready.type[1] || type === ready.type[2]){
+            layero.css(options);
+            if(type === ready.type[2]){
+                layero.find('iframe').css({
+                    height: parseFloat(options.height) - titHeight - btnHeight
                 });
             }
         }
     };
 
-    //最小化
-    layer.min = function (index, options) {
-        var layero = $('#' + doms[0] + index), offset = [layero.position().top, layero.position().left + parseFloat(layero.css('margin-left'))];
-        ready.isauto(layero, options, offset);
-        layer.area(index, { width: 180, height: 35 });
-        layero.find('.xubox_min').hide();
+//最小化
+    layer.min = function(index, options){
+        var layero = $('#'+ doms[0] + index);
+        var titHeight = layero.find(doms[1]).outerHeight() || 0;
+        ready.record(layero);
+        layer.style(index, {width: 180, height: titHeight, overflow: 'hidden'});
+        layero.find('.layui-layer-min').hide();
         layero.attr('type') === 'page' && layero.find(doms[4]).hide();
         ready.rescollbar(index);
     };
 
-    //还原
-    layer.restore = function (index) {
-        var layero = $('#' + doms[0] + index), area = layero.attr('area').split(',');
+//还原
+    layer.restore = function(index){
+        var layero = $('#'+ doms[0] + index), area = layero.attr('area').split(',');
         var type = layero.attr('type');
-        layer.area(index, {
+        layer.style(index, {
             width: parseFloat(area[0]),
             height: parseFloat(area[1]),
             top: parseFloat(area[2]),
-            left: parseFloat(area[3])
+            left: parseFloat(area[3]),
+            overflow: 'visible'
         });
-        layero.find('.xubox_max').removeClass('xubox_maxmin');
-        layero.find('.xubox_min').show();
+        layero.find('.layui-layer-max').removeClass('layui-layer-maxmin');
+        layero.find('.layui-layer-min').show();
         layero.attr('type') === 'page' && layero.find(doms[4]).show();
         ready.rescollbar(index);
     };
 
-    //全屏
-    layer.full = function (index, options) {
-        var layero = $('#' + doms[0] + index), borders = options.border[0] * 2 || 6, timer;
-        var offset = [layero.position().top, layero.position().left + parseFloat(layero.css('margin-left'))];
-        ready.isauto(layero, options, offset);
-        if (!doms.html.attr('layer-full')) {
-            doms.html.css('overflow', 'hidden').attr('layer-full', index);
+//全屏
+    layer.full = function(index){
+        var layero = $('#'+ doms[0] + index), timer;
+        ready.record(layero);
+        if(!doms.html.attr('layer-full')){
+            doms.html.css('overflow','hidden').attr('layer-full', index);
         }
         clearTimeout(timer);
-        timer = setTimeout(function () {
-            layer.area(index, {
-                top: layero.css('position') === 'fixed' ? 0 : win.scrollTop(),
-                left: layero.css('position') === 'fixed' ? 0 : win.scrollLeft(),
-                width: win.width() - borders,
-                height: win.height() - borders
+        timer = setTimeout(function(){
+            var isfix = layero.css('position') === 'fixed';
+            layer.style(index, {
+                top: isfix ? 0 : win.scrollTop(),
+                left: isfix ? 0 : win.scrollLeft(),
+                width: win.width(),
+                height: win.height()
             });
+            layero.find('.layui-layer-min').hide();
         }, 100);
     };
 
-    //改变title
-    layer.title = function (name, index) {
-        var title = $('#' + doms[0] + (index || layer.index)).find('.xubox_title>em');
+//改变title
+    layer.title = function(name, index){
+        var title = $('#'+ doms[0] + (index||layer.index)).find(doms[1]);
         title.html(name);
     };
 
-    //关闭layer总方法
-    layer.close = function (index) {
-        var layero = $('#' + doms[0] + index), type = layero.attr('type'), shadeNow = $('#xubox_moves, #xubox_shade' + index);
-        if (!layero[0]) {
-            return;
-        }
-        if (type == ready.type[1]) {
-            if (layero.find('.xuboxPageHtml')[0]) {
-                layero[0].innerHTML = '';
-                layero.remove();
-            } else {
-                layero.find('.xubox_setwin,.xubox_close,.xubox_botton,.xubox_title,.xubox_border').remove();
-                for (var i = 0; i < 3; i++) {
-                    layero.find('.layer_pageContent').unwrap().hide();
-                }
+//关闭layer总方法
+    layer.close = function(index){
+        var layero = $('#'+ doms[0] + index), type = layero.attr('type');
+        if(!layero[0]) return;
+        if(type === ready.type[1] && layero.attr('conType') === 'object'){
+            layero.children(':not(.'+ doms[5] +')').remove();
+            for(var i = 0; i < 2; i++){
+                layero.find('.layui-layer-wrap').unwrap().hide();
             }
         } else {
+            //低版本IE 回收 iframe
+            if(type === ready.type[2]){
+                try {
+                    var iframe = $('#'+doms[4]+index)[0];
+                    iframe.contentWindow.document.write('');
+                    iframe.contentWindow.close();
+                    layero.find('.'+doms[5])[0].removeChild(iframe);
+                } catch(e){}
+            }
             layero[0].innerHTML = '';
             layero.remove();
         }
-        shadeNow.remove();
+        $('#layui-layer-moves, #layui-layer-shade' + index).remove();
         layer.ie6 && ready.reselect();
         ready.rescollbar(index);
-        typeof ready.config.end[index] === 'function' && ready.config.end[index]();
-        delete ready.config.end[index];
+        $(document).off('keydown', ready.enter);
+        typeof ready.end[index] === 'function' && ready.end[index]();
+        delete ready.end[index];
     };
 
-    //关闭loading层
-    layer.closeLoad = function () {
-        layer.close($('.xubox_loading').parents('.' + doms[0]).attr('times'));
-    };
-
-    //关闭tips层
-    layer.closeTips = function () {
-        layer.closeAll('tips');
-    };
-
-    //关闭所有层
-    layer.closeAll = function (type) {
-        $.each($('.' + doms[0]), function () {
+//关闭所有层
+    layer.closeAll = function(type){
+        $.each($('.'+doms[0]), function(){
             var othis = $(this);
             var is = type ? (othis.attr('type') === type) : 1;
-            if (is) {
-                layer.close(othis.attr('times'));
-            }
+            is && layer.close(othis.attr('times'));
             is = null;
         });
     };
 
-    //主入口
-    ready.run = function () {
+    /**
+
+     拓展模块，layui开始合并在一起
+
+     */
+
+    var cache = layer.cache||{}, skin = function(type){
+        return (cache.skin ? (' ' + cache.skin + ' ' + cache.skin + '-'+type) : '');
+    };
+
+//仿系统prompt
+    layer.prompt = function(options, yes){
+        options = options || {};
+        if(typeof options === 'function') yes = options;
+        var prompt, content = options.formType == 2 ? '<textarea class="layui-layer-input">'+ (options.value||'') +'</textarea>' : function(){
+            return '<input type="'+ (options.formType == 1 ? 'password' : 'text') +'" class="layui-layer-input" value="'+ (options.value||'') +'">';
+        }();
+        return layer.open($.extend({
+            btn: ['&#x786E;&#x5B9A;','&#x53D6;&#x6D88;'],
+            content: content,
+            skin: 'layui-layer-prompt' + skin('prompt'),
+            success: function(layero){
+                prompt = layero.find('.layui-layer-input');
+                prompt.focus();
+            }, yes: function(index){
+                var value = prompt.val();
+                if(value === ''){
+                    prompt.focus();
+                } else if(value.length > (options.maxlength||500)) {
+                    layer.tips('&#x6700;&#x591A;&#x8F93;&#x5165;'+ (options.maxlength || 500) +'&#x4E2A;&#x5B57;&#x6570;', prompt, {tips: 1});
+                } else {
+                    yes && yes(value, index, prompt);
+                }
+            }
+        }, options));
+    };
+
+//tab层
+    layer.tab = function(options){
+        options = options || {};
+        var tab = options.tab || {};
+        return layer.open($.extend({
+            type: 1,
+            skin: 'layui-layer-tab' + skin('tab'),
+            title: function(){
+                var len = tab.length, ii = 1, str = '';
+                if(len > 0){
+                    str = '<span class="layui-layer-tabnow">'+ tab[0].title +'</span>';
+                    for(; ii < len; ii++){
+                        str += '<span>'+ tab[ii].title +'</span>';
+                    }
+                }
+                return str;
+            }(),
+            content: '<ul class="layui-layer-tabmain">'+ function(){
+                var len = tab.length, ii = 1, str = '';
+                if(len > 0){
+                    str = '<li class="layui-layer-tabli xubox_tab_layer">'+ (tab[0].content || 'no content') +'</li>';
+                    for(; ii < len; ii++){
+                        str += '<li class="layui-layer-tabli">'+ (tab[ii].content || 'no  content') +'</li>';
+                    }
+                }
+                return str;
+            }() +'</ul>',
+            success: function(layero){
+                var btn = layero.find('.layui-layer-title').children();
+                var main = layero.find('.layui-layer-tabmain').children();
+                btn.on('mousedown', function(e){
+                    e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+                    var othis = $(this), index = othis.index();
+                    othis.addClass('layui-layer-tabnow').siblings().removeClass('layui-layer-tabnow');
+                    main.eq(index).show().siblings().hide();
+                    typeof options.change === 'function' && options.change(index);
+                });
+            }
+        }, options));
+    };
+
+//相册层
+    layer.photos = function(options, loop, key){
+        var dict = {};
+        options = options || {};
+        if(!options.photos) return;
+        var type = options.photos.constructor === Object;
+        var photos = type ? options.photos : {}, data = photos.data || [];
+        var start = photos.start || 0;
+        dict.imgIndex = (start|0) + 1;
+
+        options.img = options.img || 'img';
+
+        if(!type){ //页面直接获取
+            var parent = $(options.photos), pushData = function(){
+                data = [];
+                parent.find(options.img).each(function(index){
+                    var othis = $(this);
+                    othis.attr('layer-index', index);
+                    data.push({
+                        alt: othis.attr('alt'),
+                        pid: othis.attr('layer-pid'),
+                        src: othis.attr('layer-src') || othis.attr('src'),
+                        thumb: othis.attr('src')
+                    });
+                })
+            };
+
+            pushData();
+
+            if (data.length === 0) return;
+
+            loop || parent.on('click', options.img, function(){
+                var othis = $(this), index = othis.attr('layer-index');
+                layer.photos($.extend(options, {
+                    photos: {
+                        start: index,
+                        data: data,
+                        tab: options.tab
+                    },
+                    full: options.full
+                }), true);
+                pushData();
+            })
+
+            //不直接弹出
+            if(!loop) return;
+
+        } else if (data.length === 0){
+            return layer.msg('&#x6CA1;&#x6709;&#x56FE;&#x7247;');
+        }
+
+        //上一张
+        dict.imgprev = function(key){
+            dict.imgIndex--;
+            if(dict.imgIndex < 1){
+                dict.imgIndex = data.length;
+            }
+            dict.tabimg(key);
+        };
+
+        //下一张
+        dict.imgnext = function(key,errorMsg){
+            dict.imgIndex++;
+            if(dict.imgIndex > data.length){
+                dict.imgIndex = 1;
+                if (errorMsg) {return};
+            }
+            dict.tabimg(key)
+        };
+
+        //方向键
+        dict.keyup = function(event){
+            if(!dict.end){
+                var code = event.keyCode;
+                event.preventDefault();
+                if(code === 37){
+                    dict.imgprev(true);
+                } else if(code === 39) {
+                    dict.imgnext(true);
+                } else if(code === 27) {
+                    layer.close(dict.index);
+                }
+            }
+        }
+
+        //切换
+        dict.tabimg = function(key){
+            if(data.length <= 1) return;
+            photos.start = dict.imgIndex - 1;
+            layer.close(dict.index);
+            layer.photos(options, true, key);
+        }
+
+        //一些动作
+        dict.event = function(){
+            dict.bigimg.hover(function(){
+                dict.imgsee.show();
+            }, function(){
+                dict.imgsee.hide();
+            });
+
+            dict.bigimg.find('.layui-layer-imgprev').on('click', function(event){
+                event.preventDefault();
+                dict.imgprev();
+            });
+
+            dict.bigimg.find('.layui-layer-imgnext').on('click', function(event){
+                event.preventDefault();
+                dict.imgnext();
+            });
+
+            $(document).on('keyup', dict.keyup);
+        };
+
+        //图片预加载
+        function loadImage(url, callback, error) {
+            var img = new Image();
+            img.src = url;
+            if(img.complete){
+                return callback(img);
+            }
+            img.onload = function(){
+                img.onload = null;
+                callback(img);
+            };
+            img.onerror = function(e){
+                img.onerror = null;
+                error(e);
+            };
+        };
+
+        dict.loadi = layer.load(1, {
+            shade: 'shade' in options ? false : 0.9,
+            scrollbar: false
+        });
+        loadImage(data[start].src, function(img){
+            layer.close(dict.loadi);
+            dict.index = layer.open($.extend({
+                type: 1,
+                area: function(){
+                    var imgarea = [img.width, img.height];
+                    var winarea = [$(window).width() - 50, $(window).height() - 50];
+                    if(!options.full && imgarea[0] > winarea[0]){
+                        imgarea[0] = winarea[0];
+                        imgarea[1] = imgarea[0]*img.height/img.width;
+                    }
+                    return [imgarea[0]+'px', imgarea[1]+'px'];
+                }(),
+                title: false,
+                shade: 0.9,
+                shadeClose: true,
+                closeBtn: false,
+                move: '.layui-layer-phimg img',
+                moveType: 1,
+                scrollbar: false,
+                moveOut: true,
+                shift: Math.random()*5|0,
+                skin: 'layui-layer-photos' + skin('photos'),
+                content: '<div class="layui-layer-phimg">'
+                +'<img src="'+ data[start].src +'" alt="'+ (data[start].alt||'') +'" layer-pid="'+ data[start].pid +'">'
+                +'<div class="layui-layer-imgsee">'
+                +(data.length > 1 ? '<span class="layui-layer-imguide"><a href="javascript:;" class="layui-layer-iconext layui-layer-imgprev"></a><a href="javascript:;" class="layui-layer-iconext layui-layer-imgnext"></a></span>' : '')
+                +'<div class="layui-layer-imgbar" style="display:'+ (key ? 'block' : '') +'"><span class="layui-layer-imgtit"><a href="javascript:;">'+ (data[start].alt||'') +'</a><em>'+ dict.imgIndex +'/'+ data.length +'</em></span></div>'
+                +'</div>'
+                +'</div>',
+                success: function(layero, index){
+                    dict.bigimg = layero.find('.layui-layer-phimg');
+                    dict.imgsee = layero.find('.layui-layer-imguide,.layui-layer-imgbar');
+                    dict.event(layero);
+                    options.tab && options.tab(data[start], layero);
+                }, end: function(){
+                    dict.end = true;
+                    $(document).off('keyup', dict.keyup);
+                }
+            }, options));
+        }, function(){
+            layer.close(dict.loadi);
+            layer.msg('&#x5F53;&#x524D;&#x56FE;&#x7247;&#x5730;&#x5740;&#x5F02;&#x5E38;<br>&#x662F;&#x5426;&#x7EE7;&#x7EED;&#x67E5;&#x770B;&#x4E0B;&#x4E00;&#x5F20;&#xFF1F;', {
+                time: 30000,
+                btn: ['&#x4E0B;&#x4E00;&#x5F20;', '&#x4E0D;&#x770B;&#x4E86;'],
+                yes: function(){
+                    data.length > 1 && dict.imgnext(true,true);
+                }
+            });
+        });
+    };
+
+//主入口
+    ready.run = function(){
         $ = jQuery;
         win = $(window);
         doms.html = $('html');
-        $.layer = function (deliver) {
+        layer.open = function(deliver){
             var o = new Class(deliver);
             return o.index;
         };
-        (new Image()).src = layer.path + '/skin/default/xubox_ico0.png';
     };
 
-    // var require1 = '../jquery'; //若采用seajs，需正确配置jquery的相对路径。未用可无视此处。
-
-    // if (window.seajs) {
-    if (typeof define === "function" ) {
-        // define([require1, './skin/layer.css'], function (require, exports, module) {
-        define('common:layer', function (require, exports, module) {
-            require('common:jquery');
-            ready.run();
-            module.exports = layer;
-        });
-    } else {
+    'function' === typeof define ? define('common:layer', function(require, exports, module){
+        require.loadCss({url: 'static/common/static/js/lib/layer/skin/layer.css'});
         ready.run();
-    }
+        return layer;
+    }) : function(){
+        require.loadCss({url: 'static/common/static/js/lib/layer/skin/layer.css'});
+        ready.run();
+        //layer.use('./skin/layer.css');
+    }();
 
 }(window);

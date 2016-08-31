@@ -8,17 +8,17 @@
 var yog = require('yog2-kernel');
 var cluster = require('cluster');
 
-if (cluster.isMaster) {
-
-    require('os').cpus().forEach(function () {
-        cluster.fork();
-    });
-    cluster.on('exit', function (worker, code, signal) {
-        console.log('worker ' + worker.process.pid + ' died');
-    });
-
-
-} else {
+//if (cluster.isMaster) {
+//
+//    require('os').cpus().forEach(function () {
+//        cluster.fork();
+//    });
+//    cluster.on('exit', function (worker, code, signal) {
+//        console.log('worker ' + worker.process.pid + ' died');
+//    });
+//
+//
+//} else {
 
     var app = yog.bootstrap({
         rootPath: __dirname
@@ -44,6 +44,5 @@ if (cluster.isMaster) {
             socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
         });
     }
-}
-
+//}
 
