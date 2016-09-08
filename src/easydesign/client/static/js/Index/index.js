@@ -1,4 +1,12 @@
-
+//index.js
+/**
+ * @require ./loadImage
+ * @require ./twentytwenty/twentytwenty.index
+ * @require ./banner
+ * @require ./simulation
+ * @require ./sourceLib
+ * @require ./studioShow
+ */
     require('common:jquery');
     require('common:layer');
     require('common:event.move');

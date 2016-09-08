@@ -28,9 +28,9 @@ if (fis.IS_FIS3) {
 
 
 /////////////// 打包 /////////////////
-    fis.match('static/js/lib/**.js', {
-        packTo: 'static/js/lib/lib.js'
-    });
+    // fis.match('static/js/lib/**.js', {
+    //     packTo: 'static/js/lib/lib.js'
+    // });
 
 
 //////////////// 雪碧图 ///////////////
