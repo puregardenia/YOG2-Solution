@@ -1,0 +1,10 @@
+{
+    "pkg/common_sync_css_0.css": [
+        "/static/css/testPack1.less",
+        "/static/css/testPack2.less"
+    ],
+    "pkg/common_sync_js_0.js": [
+        "/static/js/optimize/mod.js",
+        "/jquery.js"
+    ]
+}
