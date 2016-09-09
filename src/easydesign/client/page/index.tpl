@@ -1,8 +1,14 @@
 {% extends 'easydesign:page/layout.tpl' %}
 
 {% block content %}
-<link href="../static/css/global.less" rel="stylesheet" type="text/css"/>
-<link href="../static/css/index.less" rel="stylesheet" type="text/css"/>
+
+<!--
+  @require ../static/css/global.less
+  @require ../static/css/index.less
+ -->
+
+{% require 'easydesign:static/css/global.less' %}
+{% require 'easydesign:static/css/index.less' %}
 
   <div class="index-banner-box">
     <div class="banner-wrapper">
@@ -631,8 +637,6 @@
           </div>
 
         </div>
-
-<!--<script src="../static/js/Index/index.js"></script>-->
 
 {% script %}
 

@@ -1,13 +1,15 @@
 /**
  * @file FIS 配置
  * @author
+ * 需要 npm install [-g] fis-prepackager-auto-pack
+ * 需要 npm install [-g] fis3-packager-deps-pack
  */
 
 fis.config.set('namespace', 'common');
-
+var packConf = require('./pack.js');
 // chrome下可以安装插件实现livereload功能
-// https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei
 fis.config.set('livereload.port', 35729);
+
 
 if (fis.IS_FIS3) {
 
@@ -21,29 +23,33 @@ if (fis.IS_FIS3) {
     fis.match('static/js/lib/animateNumber.js', {id: 'animateNumber.js', isMod: false });
     fis.match('static/js/lib/spin.js', {id: 'spin.js', isMod: false });
 
-
+    // 避免因为 给静态资源加hash导致mod.js找不到资源
     fis.match('static/js/lib/**.{css,jpg,jpeg,png}', {
         useHash: false
     });
 
+///////////////////////// 打包 //////////////////////////////
+///            auto-pack 配合 deps-pack
+///首先 auto-pack 会分析依赖，生成pack.json
+///提取出pack.json 中需要手动打包的配置到pack.js
+///fis-config 读取 pack.js 进行打包并配合资源定位器替换路径
 
-/////////////// 打包 /////////////////
-    fis.match('static/js/lib/**.js', {
-        packTo: 'static/js/lib/lib.js'
+    fis.match('*.html',{
+        useMap: true        //开启分析依赖生成的功能
     });
 
+    fis.match('::package', {
+        prepackager: fis.plugin('auto-pack',{}),
+        packager: fis.plugin('deps-pack', packConf),
+        spriter: fis.plugin('csssprites')
+    });
 
 //////////////// 雪碧图 ///////////////
-    // 启用 fis-spriter-csssprites 插件
-    fis.match('::package', {
-      spriter: fis.plugin('csssprites')
-    });
-
     // 对 CSS 进行图片合并
     fis.match('*.less', {
-      useSprite: true,
-      // fis-optimizer-clean-css 插件进行压缩，已内置
-      optimizer: fis.plugin('clean-css')
+        useSprite: true,
+        // fis-optimizer-clean-css 插件进行压缩，已内置
+        optimizer: fis.plugin('clean-css')
     });
 
 ///////////////////// 优化 ////////////////////////////
