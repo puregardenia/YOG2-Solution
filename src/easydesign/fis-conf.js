@@ -7,6 +7,10 @@
 
 fis.config.set('namespace', 'easydesign');
 var packConf = require('./pack.js');
+
+//自动更新pack.json文件
+fis.set('project.ignore', ['pack.json']); // set 为覆盖不是叠加
+
 // chrome下可以安装插件实现livereload功能
 fis.config.set('livereload.port', 35729);
 
